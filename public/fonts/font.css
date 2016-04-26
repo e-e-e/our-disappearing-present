@@ -1,0 +1,36 @@
+
+@font-face {
+    font-family: "TheSans Mono Regular";
+    src: url("TheSans-Mono-Regular_400.woff") format("woff");
+    font-weight: 400
+}
+
+@font-face {
+    font-family: "TheSans Mono Regular Italic";
+    src: url("TheSans-Mono-Regular-Italic_400.woff") format("woff");
+    font-weight: 400
+}
+
+@font-face {
+    font-family: "TheSans Mono Bold";
+    src: url("TheSans-Mono-Bold_400.woff") format("woff");
+    font-weight: 400
+}
+
+@font-face {
+    font-family: 'OfficinaSansITCStd-Book';
+    src: url("OfficinaSansITCStd-Book_400.woff") format("woff");
+    font-weight: 400
+}
+
+@font-face {
+    font-family: 'OfficinaSansITCStd-Bold';
+    src: url("OfficinaSansITCStd-Bold_400.woff") format("woff");
+    font-weight: 400
+}
+
+@font-face {
+    font-family: 'OfficinaSansITCStd-BookItalic';
+    src: url("OfficinaSansITCStd-BookItalic_400.woff") format("woff");
+    font-weight: 400
+}

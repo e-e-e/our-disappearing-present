@@ -1,0 +1,93 @@
+@font-face{
+	font-family:"OCRB";
+	src:url("610af915-cf43-4b02-84f5-e4104c7dd109.eot?#iefix");
+	src:url("610af915-cf43-4b02-84f5-e4104c7dd109.eot?#iefix") format("eot"),url("c2b907a4-c36c-4739-9219-d8f04980134a.woff") 	format("woff"),url("74f2b5ef-136a-4afe-aa1f-ad3303324ed4.ttf") format("truetype"),url("08415ce2-8df9-4972-b70c-8b8c7720b4e8.svg#08415ce2-8df9-4972-b70c-8b8c7720b4e8") format("svg");
+}
+
+body, html {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+	background: #FFF;
+	color: #000;
+	font-size: 15px;
+}
+
+body {
+	margin: 0 auto;
+	max-width: 768px;
+}
+
+@media only screen and (min-width: 768px) {
+	body, html { font-size: 17px; }
+}
+
+@media only screen and (min-width: 1024px) {
+	body, html { font-size: 17px; }
+}
+
+div#content {
+	width: 100%;
+	height: 100%;
+	display: table;
+	margin: 0 auto;
+	padding: 2em 0;
+}
+
+div#content > div {
+	width: 100%;
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+}
+
+div#content > div > div {
+	overflow: hidden;
+}
+
+div#buttons {
+	display: block;
+	padding: 2em;
+}
+
+div#logos {
+	text-align: center;
+	padding: 0 2em;
+	overflow: hidden;
+}
+
+div#logos img {
+	display: inline;
+	margin: 1em 0.5em;
+	height: 2.5em;
+	width: auto;
+}
+
+h1, h2, h3, h4, h5, p, a {
+	font-family: OCRB, sans-serif;
+}
+
+h1, h2, h3, h4, h5, p {
+	padding: 0 2em;
+}
+
+p, a {
+	-ms-word-break: break-all;
+	word-break: break-all;
+	word-break: break-word;
+	-webkit-hyphens: auto;
+	-moz-hyphens: auto;
+	hyphens: auto;
+}
+
+p {
+	text-align: left;
+}
+
+img.logo {
+	width: 3em;
+	height: auto;
+	margin: 5em;
+	padding-top: 6em;
+}

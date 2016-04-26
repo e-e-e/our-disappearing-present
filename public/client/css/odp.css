@@ -1,0 +1,489 @@
+/*button displays*/
+div#our-disappearing-present {
+  font-family: 'TheSans Mono Regular', sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 0.675rem;
+  display: none;
+  overflow: hidden;
+  cursor: pointer !important;
+}
+div#our-disappearing-present.active {
+  display: block;
+  height: 2rem;
+  line-height: 2rem;
+  padding-left: 0.875rem;
+  margin-bottom: 0.9375rem;
+  border: solid thin #000;
+  background-color: #000;
+  color: #FFF;
+}
+div#our-disappearing-present.active.round {
+  position: fixed;
+  z-index: 999999998;
+  width: 4rem;
+  height: 4rem;
+  padding: 0;
+  margin: 0;
+  border: none;
+  -webkit-transition: background-size 0.5s;
+  -moz-transition: background-size 0.5s;
+  -ms-transition: background-size 0.5s;
+  -o-transition: background-size 0.5s;
+  transition: background-size 0.5s;
+  background: #FFF;
+  /* Old Browsers */
+  background-image: url("/images/logo/logo.svg"), -moz-radial-gradient(center, ellipse cover, #000 0%, rgba(0, 0, 0, 0) 70%);
+  /* FF3.6+ */
+  background-image: url("/images/logo/logo.svg"), -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #000), color-stop(70%, rgba(0, 0, 0, 0)));
+  /* Chrome, Safari4+ */
+  background-image: url("/images/logo/logo.svg"), -webkit-radial-gradient(center, ellipse cover, #000 0%, rgba(0, 0, 0, 0) 70%);
+  /* Chrome10+,Safari5.1+ */
+  background-image: url("/images/logo/logo.svg"), -o-radial-gradient(center, ellipse cover, #000 0%, rgba(0, 0, 0, 0) 70%);
+  /* Opera 11.10+ */
+  background-image: url("/images/logo/logo.svg"), -ms-radial-gradient(center, ellipse cover, #000 0%, rgba(0, 0, 0, 0) 70%);
+  /* IE 10+ */
+  background-image: url("/images/logo/logo.svg"), radial-gradient(ellipse at center, #000 0%, rgba(0, 0, 0, 0) 70%);
+  /* W3C */
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  -webkit-background-size: 2rem, 3rem 3rem;
+  -moz-background-size: 2rem, 3rem 3rem;
+  -ms-background-size: 2rem, 3rem 3rem;
+  background-size: 2rem, 3rem 3rem;
+}
+div#our-disappearing-present.active.round:hover {
+  background-color: transparent;
+  background-size: 2rem, 4rem 4rem;
+}
+div#our-disappearing-present.active.top {
+  top: 2rem;
+}
+div#our-disappearing-present.active.bottom {
+  bottom: 2rem;
+}
+div#our-disappearing-present.active.right {
+  right: 2rem;
+}
+div#our-disappearing-present.active.left {
+  left: 2rem;
+}
+div#our-disappearing-present.active:hover {
+  background-color: #FFF;
+  color: #000;
+}
+/*popup*/
+div#odp-popup {
+  font-family: "OfficinaSansITCStd-Book", sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 1em;
+  display: -webkit-box;
+  /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;
+  /* OLD - Firefox 19- (buggy but mostly works) */
+  display: -ms-flexbox;
+  /* TWEENER - IE 10 */
+  display: -webkit-flex;
+  /* NEW - Chrome */
+  display: flex;
+  /* NEW, Spec - Opera 12.1, Firefox 20+ */
+  -ms-flex-direction: column;
+  -moz-flex-direction: column;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  position: fixed;
+  top: 1rem;
+  bottom: 1rem;
+  z-index: 999999999;
+  width: 100%;
+  max-width: 600px;
+  height: 90%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: #FFF;
+  border: 1px solid #000;
+}
+div#odp-popup a,
+div#odp-popup p,
+div#odp-popup span {
+  padding: 0;
+  margin: 0;
+  line-height: 1rem;
+}
+div#odp-popup > div {
+  width: 100%;
+  max-width: 600px;
+}
+div#odp-popup a {
+  font-family: 'TheSans Mono Regular', sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 1em;
+  color: #555;
+}
+div#odp-popup a:active,
+div#odp-popup a:visited {
+  color: #555;
+}
+div#odp-popup a:hover {
+  color: #000;
+}
+div#odp-popup p {
+  font-family: "OfficinaSansITCStd-Book", sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 1em;
+  margin: 0.5rem 1rem ;
+  line-height: 1.2rem ;
+}
+div#odp-popup h1 {
+  font-family: 'TheSans Mono Bold', sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 1em;
+  line-height: 1.2rem;
+  padding: 0;
+}
+div#odp-popup h2,
+div#odp-popup h3,
+div#odp-popup h4,
+div#odp-popup h5 {
+  font-family: 'TheSans Mono Bold', sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 0.875rem;
+  line-height: 1.2rem;
+  padding: 0;
+}
+div#odp-head {
+  height: 2.5rem;
+  overflow: hidden;
+  background-color: #000;
+  color: #FFF;
+  cursor: move;
+}
+div#odp-head span.odp-title {
+  float: left;
+  width: 90%;
+  padding: 0 1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 2.5rem;
+  font-family: "OfficinaSansITCStd-Book", sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 1.125rem;
+}
+div#odp-head span.odp-icon-close {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  background-image: url("/images/cross-white.svg");
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  -webkit-background-size: 0.9rem;
+  -moz-background-size: 0.9rem;
+  -ms-background-size: 0.9rem;
+  background-size: 0.9rem;
+}
+div#odp-head > button {
+  position: absolute;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  background-color: transparent !important;
+  right: 1.5rem !important;
+  top: 1rem !important;
+  width: 0.5rem !important;
+  height: 0.5rem !important;
+  outline: none !important;
+  overflow: visible;
+  cursor: pointer;
+}
+div#odp-tabs {
+  display: table;
+  background: #000;
+  border: none;
+  white-space: nowrap;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+div#odp-tabs > span {
+  display: table-cell;
+  width: 33.333%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 0px;
+  border-bottom: 1px #000 solid;
+  border-top-right-radius: 0.5em;
+  border-top-left-radius: 0.5em;
+  background: #000;
+  color: #FFF;
+  font-family: "OfficinaSansITCStd-Book", sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 0.7em;
+  line-height: 1.5rem;
+  text-align: center;
+}
+div#odp-tabs > span.active,
+div#odp-tabs > span.active:hover {
+  border-color: #FFF;
+  border-top-color: #000;
+  border-left-width: 0px;
+  border-right-width: 0px;
+  background: #FFF;
+  color: #000;
+  cursor: default;
+}
+div#odp-tabs > span:hover {
+  border-color: #FFF;
+  border-bottom: dotted #000 1px;
+  background: #EEE;
+  color: #000;
+  cursor: pointer;
+}
+div#odp-tabs > span:first-child {
+  border-top-left-radius: 0em;
+}
+div#odp-tabs > span:last-child {
+  border-top-right-radius: 0em;
+}
+div#odp-body {
+  -webkit-box-flex: 1;
+  /* OLD - iOS 6-, Safari 3.1-6 */
+  -moz-box-flex: 1;
+  /* OLD - Firefox 19- */
+  -webkit-flex: 1;
+  /* Chrome */
+  -ms-flex: 1;
+  /* IE 10 */
+  flex: 1;
+  /* NEW, */
+  overflow: scroll;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  background: #FFF;
+}
+div#odp-body.loading {
+  background: #FFF;
+  background-image: url("/images/loading.gif");
+  background-repeat: no-repeat;
+  background-position: center;
+  -webkit-background-size: 200px;
+  -moz-background-size: 200px;
+  -ms-background-size: 200px;
+  background-size: 200px;
+}
+ul#odp-msgs {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  background: #FFF;
+  color: #000;
+}
+ul#odp-msgs li {
+  padding: 1rem 1rem;
+}
+ul#odp-msgs li.odp-odd {
+  background: #EEE;
+}
+/* Message */
+.odp-msg .odp-msg-date,
+.odp-msg .odp-msg-host {
+  font-family: 'TheSans Mono Regular', sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 0.675rem;
+  color: #555;
+}
+.odp-msg-content {
+  display: block;
+  padding: 0.5rem 0;
+  clear: both;
+}
+.odp-msg-content p {
+  margin: 0rem 1rem !important;
+}
+.odp-msg-head {
+  font-family: 'TheSans Mono Bold', sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  word-break: break-all;
+  line-height: 1rem;
+  overflow: visible;
+  padding: 0;
+  clear: both;
+}
+.odp-msg-head a {
+  text-decoration: underline;
+}
+.odp-msg-title {
+  display: block;
+  float: left;
+  max-width: 90%;
+}
+.odp-msg-title > div {
+  overflow: hidden;
+  word-wrap: break-word;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-break: break-all;
+}
+.odp-msg-title:hover > div {
+  white-space: normal;
+}
+.odp-msg-host,
+.odp-msg-date {
+  font-size: 0.675rem;
+  padding: 0;
+}
+.odp-expires {
+  float: right;
+}
+.odp-msg-extra {
+  float: right;
+  width: 1rem;
+  height: 1rem;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-background-size: 1rem;
+  -moz-background-size: 1rem;
+  -ms-background-size: 1rem;
+  background-size: 1rem;
+  background-image: url("/images/down-arrow-black.svg");
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  overflow: visible;
+}
+.odp-msg-extra .odp-msg-options {
+  display: none;
+  background-color: inherit;
+}
+.odp-msg-extra .odp-msg-options > div {
+  font-size: 0.675rem;
+  text-align: right;
+  margin: 0.5rem 0.5rem;
+}
+.odp-msg-extra:hover .odp-msg-options {
+  display: block;
+  float: right;
+  position: relative;
+  right: 0px;
+  top: 1rem;
+  width: 7rem;
+  clear: both;
+}
+.odp-msg-extra:hover {
+  background-color: #EEE;
+}
+.odp-odd .odp-msg-extra:hover {
+  background-color: #FFF;
+}
+/* Info section */
+#odp-info {
+  padding: 1em 1em;
+}
+#odp-info p {
+  margin: 0;
+}
+/* Footer */
+div#odp-foot {
+  background: #EEE;
+}
+div#odp-focus {
+  width: 600px;
+  font-size: 1em;
+  min-height: 1rem;
+  padding: 0.5rem 0;
+  background: #000;
+  color: #FFF;
+}
+div#odp-focus > div {
+  font-family: 'TheSans Mono Regular', sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 0.675rem;
+  padding: 0.1rem 1rem;
+  white-space: nowrap;
+  word-break: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+form#odp-form {
+  padding: 0;
+  margin: 1rem;
+}
+form#odp-form > div {
+  margin: 0.5rem 0;
+  padding: 0;
+  display: inline-block;
+}
+form#odp-form button {
+  float: right;
+  font-family: 'TheSans Mono Regular', sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 1rem;
+  border: 1px #000 solid;
+  border-top: none;
+  box-sizing: border-box;
+  background: #000;
+  color: #FFF;
+  padding: 0.5rem 1rem;
+  margin: 0;
+  cursor: pointer;
+  outline: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+form#odp-form button:hover {
+  background: #FFF;
+  color: #000;
+}
+textarea#odp-m,
+input#odp-n {
+  font-family: "OfficinaSansITCStd-Book", sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 1em;
+  outline: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+textarea#odp-m {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0.5rem;
+  box-sizing: border-box;
+  border: 1px solid #000;
+  overflow: auto;
+  resize: none;
+}
+input#odp-n {
+  display: inline;
+  font-family: 'TheSans Mono Bold', sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 0.875rem;
+  border: none;
+  border-bottom: 1px #000 solid;
+  padding-left: 1rem;
+  background: none;
+  overflow: visible;
+}

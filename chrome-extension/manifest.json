@@ -1,0 +1,12 @@
+{
+  "name": "our disappearing present...",
+  "version": "0.1",
+  "description": "",
+  "manifest_version": 2,
+  "permissions": ["<all_urls>"],
+  "content_scripts": [{
+    "matches": ["http://*.nextwave.org.au/*", "https://*.nextwave.org.au/*"],
+    "js": ["odp-ext.js"],
+    "run_at": "document_end"
+  }]
+}

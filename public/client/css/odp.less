@@ -1,0 +1,465 @@
+
+@import "mixin";
+
+// variables
+@index: 999999999;
+
+// sizing
+@odp-width: 600px;
+@odp-height: 90%;
+
+// colours
+@primary-tone: #000;
+@primary-transparent: rgba(0,0,0,0);
+@secondary-tone: #555;
+@tertiary-tone: #EEE;
+@base-tone: #FFF;
+
+// fonts
+@font-sans-regular: 'TheSans Mono Regular', sans-serif;
+
+.default-font(@size:1em) {
+	font-family: "OfficinaSansITCStd-Book", sans-serif;
+	font-weight: normal;
+	font-style: normal;
+	font-size: @size;
+}
+
+.mono-regular-font(@size:0.675rem) {
+	font-family: 'TheSans Mono Regular', sans-serif;
+	font-weight: normal;
+	font-style: normal;
+	font-size: @size;
+}
+
+.mono-bold-font(@size:0.875rem) {
+	font-family: 'TheSans Mono Bold', sans-serif;
+	font-weight: normal;
+	font-style: normal;
+	font-size: @size;
+}
+
+// mixins specifically for odp
+
+.radial-gradient-with-image (@img, @color-from, @color-to, @edge) {
+	background: #FFF; /* Old Browsers */
+	background-image: @img, -moz-radial-gradient(center, ellipse cover, @color-from 0%, @color-to @edge); /* FF3.6+ */
+ 	background-image: @img, -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, @color-from), color-stop(@edge, @color-to)); /* Chrome, Safari4+ */
+	background-image: @img, -webkit-radial-gradient(center, ellipse cover, @color-from 0%,  @color-to @edge); /* Chrome10+,Safari5.1+ */ 
+	background-image: @img, -o-radial-gradient(center, ellipse cover, @color-from 0%,  @color-to @edge); /* Opera 11.10+ */
+	background-image: @img, -ms-radial-gradient(center, ellipse cover, @color-from 0%,  @color-to @edge);/* IE 10+ */
+	background-image: @img, radial-gradient(ellipse at center, @color-from 0%,  @color-to @edge); /* W3C */
+	background-color: transparent;
+	background-repeat: no-repeat;
+	background-position: center;
+	.background-size(2rem, 3rem 3rem);
+}
+
+
+/*button displays*/
+
+div#our-disappearing-present {
+	.mono-regular-font;
+	display: none;
+	overflow: hidden;
+	cursor: pointer !important;
+} 
+
+div#our-disappearing-present.active {
+	display: block;
+	height:2rem;
+	line-height: 2rem;
+	padding-left: 0.875rem;
+	margin-bottom: 0.9375rem;
+	border: solid thin @primary-tone;
+	background-color: @primary-tone;
+	color: @base-tone;
+
+	&.round {
+		position: fixed;
+		z-index: @index - 1;
+		width: 4rem;
+		height: 4rem;
+		padding: 0;
+		margin: 0;
+		border: none;
+		.transition(background-size 0.5s);
+		.radial-gradient-with-image(url("/images/logo/logo.svg"),@primary-tone,@primary-transparent,70%);
+		
+		&:hover {
+			background-color: transparent;
+			background-size: 2rem, 4rem 4rem;
+		}
+	}
+	
+	&.top { top:2rem;}
+	&.bottom { bottom:2rem;}
+	&.right { right:2rem; }
+	&.left { left:2rem;}
+
+	&:hover {
+		background-color: @base-tone;
+		color: @primary-tone;
+	}
+
+}
+
+/*popup*/
+
+div#odp-popup {
+	.default-font;
+	.display-flex;
+	.flex-direction(column);
+	position: fixed;
+	top:1rem;
+	bottom:1rem;
+	z-index: @index;
+	width: 100%;
+	max-width: @odp-width;
+	height: @odp-height;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background: @base-tone;
+	border: 1px solid @primary-tone;
+
+	a, p, span {
+		padding: 0;
+		margin: 0;
+		line-height: 1rem;
+	}
+	& > div {
+		width: 100%;
+		max-width: @odp-width;
+	}
+
+	a {
+		.mono-regular-font(1em);
+		color:@secondary-tone;
+		&:active, &:visited { color:@secondary-tone;} 
+		&:hover { color: @primary-tone;}
+	}
+
+	p {
+		.default-font;
+		margin: 0.5rem 1rem ;
+		line-height: 1.2rem ;
+	}
+
+	h1 {
+		.mono-bold-font(1em);
+		line-height: 1.2rem;
+		padding: 0;
+	}
+
+	h2, h3, h4, h5 {
+		.mono-bold-font;
+		line-height: 1.2rem;
+		padding: 0;
+	}
+
+}
+
+div#odp-head {
+	height: 2.5rem;
+	overflow: hidden;
+	background-color: @primary-tone;
+	color: @base-tone;
+	cursor: move;
+	
+	span.odp-title {
+		float: left;
+		width: 90%;
+		padding: 0 1rem;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		line-height: 2.5rem;
+		.default-font(1.125rem);
+	}
+
+	span.odp-icon-close {
+		display: block !important;
+		width: 100% !important;
+		height: 100% !important;
+		background-image: url("/images/cross-white.svg");
+		background-color: transparent;
+		background-repeat: no-repeat;
+		background-position: center;
+		.background-size(0.9rem);
+	}
+
+	& > button {
+		position: absolute;
+		padding: 0 !important;
+		margin: 0 !important;
+		border: none !important;
+		background-color: transparent !important;
+		right: 1.5rem !important;
+		top: 1rem !important;
+		width: 0.5rem !important;
+		height: 0.5rem !important;
+		outline: none !important;
+		overflow: visible;
+		cursor: pointer;
+	}
+
+}
+
+div#odp-tabs {
+	display: table;
+	background: @primary-tone;
+	border:none;
+	white-space: nowrap;
+	padding: 0;
+	margin: 0;
+	width: 100%;
+
+	& > span {
+		display: table-cell;
+		width: 33.333%;
+		.box-sizing();
+		border: 0px;
+		border-bottom: 1px @primary-tone solid;
+		border-top-right-radius: 0.5em; 
+		border-top-left-radius: 0.5em; 
+		background: @primary-tone;
+		color: @base-tone;
+		.default-font(0.7em);
+		line-height: 1.5rem;
+		text-align: center;
+
+		&.active, &.active:hover {
+			border-color:@base-tone;
+			border-top-color: @primary-tone;
+			border-left-width: 0px;
+			border-right-width: 0px;
+			background: @base-tone;
+			color: @primary-tone;
+			cursor: default;
+		}
+		&:hover {
+			border-color: @base-tone;
+			border-bottom: dotted @primary-tone 1px;
+			background: @tertiary-tone;
+			color: @primary-tone;
+			cursor:pointer;
+		}
+		&:first-child {	border-top-left-radius: 0em; }
+		&:last-child { border-top-right-radius: 0em; }
+	}
+}
+
+div#odp-body {
+	.flex();
+	overflow: scroll;
+	overflow-x: hidden;
+	overflow-y:scroll;
+	background: @base-tone;
+
+	&.loading {
+		background: @base-tone;
+		background-image: url("/images/loading.gif");
+		background-repeat: no-repeat;
+		background-position: center;
+		.background-size(200px);
+	}
+}
+
+ul#odp-msgs {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	background: @base-tone;
+	color: @primary-tone;
+	li {
+		padding: 1rem 1rem;
+		&.odp-odd { background: @tertiary-tone; }
+	}
+}
+
+/* Message */
+
+.odp-msg {
+	.odp-msg-date, .odp-msg-host {
+		.mono-regular-font;
+		color:@secondary-tone;
+	}
+}
+
+.odp-msg-content {
+	display: block;
+	padding: 0.5rem 0;
+	clear: both;
+	p {
+		margin: 0rem 1rem !important;
+	}
+}
+
+.odp-msg-head {
+	.mono-bold-font;
+	white-space: nowrap;
+	word-break: break-all;
+	line-height: 1rem;
+	overflow: visible;
+	padding: 0;
+	clear: both;
+	a { text-decoration: underline; }
+}
+
+.odp-msg-title {
+	display: block;
+	float: left;
+	max-width: 90%;
+	& > div {
+		overflow: hidden;
+		word-wrap: break-word;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		word-break: break-all;
+	}
+	&:hover > div { white-space: normal; }
+}
+
+.odp-msg-host, .odp-msg-date {
+	font-size: 0.675rem;
+	padding: 0;
+}
+
+.odp-expires { float: right; }
+
+.odp-msg-extra {
+	float: right;
+	width: 1rem;
+	height: 1rem;
+	.box-sizing();
+	.background-size (1rem);
+	background-image: url("/images/down-arrow-black.svg");
+	background-color: transparent;
+	background-repeat: no-repeat;
+	background-position: center;
+	cursor: pointer;
+	overflow: visible;
+
+	.odp-msg-options { 
+		
+		display: none; 
+		background-color: inherit;
+
+		& > div {
+			font-size: 0.675rem;
+			text-align: right;
+			margin: 0.5rem 0.5rem;
+		}
+	}
+	&:hover .odp-msg-options {
+		display: block;
+		float: right;
+		position: relative;
+		right: 0px;
+		top:1rem;
+		width: 7rem;
+		clear: both;
+	}
+}
+
+.odp-msg-extra:hover {
+	background-color: @tertiary-tone;
+}
+.odp-odd .odp-msg-extra:hover {
+	background-color: @base-tone;
+}
+
+/* Info section */
+
+#odp-info {
+	padding: 1em 1em;
+
+	p {
+		margin: 0;
+	}
+}
+
+
+/* Footer */
+
+div#odp-foot {
+	background: @tertiary-tone; 
+}
+
+div#odp-focus {
+	width: 600px;
+	font-size: 1em;
+	min-height: 1rem;
+	padding: 0.5rem 0;
+	background: @primary-tone;
+	color:@base-tone;
+}
+
+div#odp-focus > div {
+	.mono-regular-font;
+	padding: 0.1rem 1rem;
+	white-space: nowrap;
+	word-break: break-word;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+form#odp-form { 
+	padding: 0; 
+	margin: 1rem;
+
+	& > div {
+		margin: 0.5rem 0;
+		padding: 0;
+		display: inline-block;
+	}
+
+	button {
+		float: right;
+		.mono-regular-font(1rem);
+		border:1px @primary-tone solid;
+		border-top: none;
+		box-sizing: border-box;
+		background: @primary-tone;
+		color:@base-tone;
+		padding: 0.5rem 1rem; 
+		margin: 0;
+		cursor: pointer;
+		outline: none;
+		.appearance();
+
+		&:hover {
+			background: @base-tone;
+			color:@primary-tone;
+		}
+	}
+}
+
+textarea#odp-m, input#odp-n {
+	.default-font;
+	outline: none;
+	.appearance;
+}
+
+textarea#odp-m { 
+	display: block;
+	width: 100%;
+	margin: 0;
+	padding: 0.5rem;
+	box-sizing: border-box;
+	border: 1px solid @primary-tone;
+	overflow: auto;
+	resize: none;
+}
+
+input#odp-n {
+	display: inline;
+	.mono-bold-font;
+	border: none;
+	border-bottom: 1px @primary-tone solid;
+	padding-left: 1rem;
+	background: none;
+	overflow: visible;
+}
+

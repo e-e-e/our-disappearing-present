@@ -1,0 +1,27 @@
+
+#ignore configuration file
+config.json
+
+# Fonts
+**/*.woff
+**/*.ttf
+**/*.eot
+**/08415ce2-8df9-4972-b70c-8b8c7720b4e8.svg
+
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
+.grunt
+
+# Dependency directories
+node_modules
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history

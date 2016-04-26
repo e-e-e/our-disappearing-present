@@ -1,0 +1,20 @@
+<li>
+	<div id='{_id}' class="odp-msg">
+		<div class="odp-msg-head">
+			<div class="odp-msg-title">
+				<div>{name}<span> » <a href="{origin}{rel}">{rel}</a></span></div>
+				<div class="odp-msg-host">{origin}</div>
+			</div>
+			<div class="odp-msg-extra">
+				<div class="odp-msg-arrow"></div>
+				<div class="odp-msg-options">
+				<div><a href="mailto:benjamin.mforster@gmail.com?subject=[ODP] Reporting abuse  - Reference {_id}&body=Why are you reporting this post%3F">report abuse</a></div>
+				</div>
+			</div>
+		</div>
+		<div class="odp-msg-content">
+			{#words}<p>{.}</p>{/words}
+		</div>
+		<div class="odp-msg-date">posted at {date} <div class='odp-expires'>{expires}</div></div>
+	</div>
+</li>

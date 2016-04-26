@@ -1,0 +1,42 @@
+<div id="odp-popup">
+	<div id="odp-head">
+		<span class="odp-title">Our disappearing present...</span>
+		<button class="odp-close" title="Close" role="button">
+			<span class="odp-icon-close"></span>
+		</button>
+	</div>
+	<div>
+		<div id="odp-tabs">
+		<span class="relative" data-odp-tab='relative'>/</span>
+		<span class="everything" data-odp-tab='everything'>*</span>
+		<span class="information" data-odp-tab='information'>i</span>
+		</div>
+	</div>
+		<div id="odp-body">
+			<ul id="odp-msgs">
+			</ul>
+			<div id="odp-info" style="display: none;">
+				<h1>About Our disappearing present...</h1>
+				<h2>In few words:</h2>
+				<p>No profiles.<br>
+					No surveillance.<br>
+					No advertisements.<br>
+					Everything is fleeting.</p>
+				<p>Our disappearing present… is a parasitic platform that enables conversation and movement across its host websites.</p> 
+				<h2>In many words:</h2>
+				<p>This is a kind of thought experiment, an attempt at constructing an alternative and independent “social media”. This is not a facebook-killer or any kind of replacement for mass corporate-controlled social media. It is rather a humble attempt to fashion infrastructure which enables a different sort of sociality on the the Internet. Our disappearing present… exists parasitically across multiple websites, and as such facilitates conversation and movement across its hosts. There is no surveillance, no logging, no advertisement, and your engagement is not monetised. Content only last a period of time before disappearing forever. </p>
+				<p>As a prototype and a provisional statement on what social media could be like if it was underpinned by a different kind of politic, Our disappearing present… is intended as a reminder of our own agency. We can build our own communities and our own worlds.</p>
+				<p>Our disappearing present… is open source.</p>
+			</div>
+		</div>
+		<div id="odp-foot">
+			<div id='odp-focus'><div id='odp-listening-to'></div><div id='odp-talking-to'></div></div>
+			<form id='odp-form'>
+				<textarea id="odp-m" form='odp-form' maxlength="2000" autocomplete="off" placeholder="Whats on your mind?" required/>
+				<button title="submit">submit</button>
+				<div>
+					<label for="odp-n">You're writing as:</label><input id="odp-n" value="" autocomplete="off" maxlength="15" required />
+				</div>
+			</form>
+		</div>
+</div>
