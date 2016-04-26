@@ -2,7 +2,7 @@
 //	"use strict";
 	// CONFIG
 	var io_options = {transports: ['websocket']};
-	var host = 'http://localhost:8080';//http://128.199.109.140';
+	var host = 'http://128.199.109.140';//http://localhost:8080';//
 	var iohost = host;
 
 	// ----- simple query variables -----
