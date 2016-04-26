@@ -202,7 +202,8 @@
 			listening_to: '#odp-listening-to',
 			talking_to: '#odp-talking-to',
 			tabs: '#odp-tabs > span',
-			info: '#odp-info'
+			info: '#odp-info',
+			popup: '#odp-popup'
 		};
 
 		this.socket = socket;
@@ -237,7 +238,9 @@
 			//should probably hide relative tab as this is then equivilent
 			$('div#odp-tabs span.everything').addClass('active');
 		}
-		$('#odp-popup').css({left:($(window).width()-$('#odp-popup').width())/2}).slideDown('fast');
+		$(this.ids.info).hide();
+		$(this.ids.content).show();
+		$(this.ids.popup).css({left:($(window).width()-$('#odp-popup').width())/2}).slideDown('fast');
 		// focus on the current relation.
 		this.focus_on(this.focus.talking_to);
 		this.opened = true;
@@ -286,8 +289,6 @@
 			$('body').off('mousemove');
 			$(this).removeClass('odp-dragging');
 		});
-		$(this.ids.content).show();
-		$(this.ids.info).hide();
 	};
 
 	ODPWindow.prototype._get_pathname = function () {
