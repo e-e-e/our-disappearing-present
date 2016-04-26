@@ -296,8 +296,8 @@
 
 	ODPWindow.prototype.close = function() {
 		$(this.ids.window).hide();
-		$(this.ids.content).hide();
-		$(this.ids.info).show();
+		$(this.ids.content).show();
+		$(this.ids.info).hide();
 		
 		this.opened = false;
 		//do anything like don't listen for anymore odp messages
