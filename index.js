@@ -24,9 +24,9 @@ app.use(helmet.noCache());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(errorHandler());
-app.use('/', express.static('./html/dest/'));
-app.use('/', (req,res)=> res.sendFile(__dirname + '/html/dest/basic.html'));
-app.use('/:room', (req,res)=> res.sendFile(__dirname + '/html/dest/basic.html'));
+app.use('/', express.static('./html/dist/'));
+app.use('/', (req,res)=> res.sendFile(__dirname + '/html/dist/basic.html'));
+app.use('/:room', (req,res)=> res.sendFile(__dirname + '/html/dist/basic.html'));
 
 odp_server(io, config.mongodb.url,config.mongodb.options).then( ()=> {
 	server.listen(port, () => {
