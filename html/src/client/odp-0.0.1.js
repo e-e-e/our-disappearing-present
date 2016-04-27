@@ -2,7 +2,7 @@
 //	"use strict";
 	// CONFIG
 	var io_options = {transports: ['websocket']};
-	var host = 'http://128.199.109.140';//http://localhost:8080';//
+	var host = "<%= options.config.server %>";
 	var iohost = host;
 
 	// ----- simple query variables -----

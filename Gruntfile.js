@@ -1,14 +1,19 @@
 module.exports = function(grunt) {
-
 	// Project configuration.
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
+		options: {
+			src: "./html/src",
+			dest: "./html/dest",
+			config: grunt.file.readJSON('config.json')
+		},
 		jshint: {
-			files: ['Gruntfile.js', 
-							'*.js', './**/*.js',
-							'!./node_modules/**/*.js', 
-							'!./public/client/views/*.js',
-							'!./public/client/libs/*.js'
+			files: ['*.js',
+							'./**/*.js',
+							'!./node_modules/**/*.js',
+							'!<%= options.dest %>/**/*',
+							'!<%= options.src %>/client/views/**/*.js',
+							'!<%= options.src %>/client/libs/*.js'
 							],
 			options: {
 				node: true
@@ -17,8 +22,9 @@ module.exports = function(grunt) {
 		less: {
 			files:{
 				expand: true,     // Enable dynamic expansion.
-				src: ['./public/**/*.less', '!./public/client/css/mixin.less'], // Actual pattern(s) to match.
-				dest: '.',   // Destination path prefix.
+				cwd: '<%= options.src %>',
+				src: ['./**/*.less', '!./client/css/imports/*.less'], // Actual pattern(s) to match.
+				dest: '<%= options.dest %>',   // Destination path prefix.
 				ext: '.css',   // Dest filepaths will have this extension.
 				extDot: 'first'   // Extensions in filenames begin after the first dot
 			 }
@@ -26,11 +32,36 @@ module.exports = function(grunt) {
 		dustc: {
 			options: {
 				compiler: 'dustc',
-				pwd: "./public/client/views/"
+				pwd: "<%= options.src %>/client/views/"
 			},
 			files: {
-				src:"./public/client/views/*.dust",
-				dest: "./public/client/views/views.js"
+				src:"<%= options.src %>/client/views/*.dust",
+				dest: "<%= options.dest %>/client/views/views.js"
+			}
+		},
+		copy: {
+			html: {
+				files:[{
+					expand: true,     // Enable dynamic expansion.
+					cwd: '<%= options.src %>',
+					src: ['./**/*', '!./**/*.less','!./**/*.dust','!./client/*.js'], // Actual pattern(s) to match.
+					dest: '<%= options.dest %>',
+					filter: 'isFile'
+			 }]
+			},
+			clientjs: {
+				options: {
+					process: function(content, path) {
+						return grunt.template.process(content);
+					}
+				},
+				files:[{
+					expand: true,     // Enable dynamic expansion.
+					cwd: '<%= options.src %>',
+					src: ['./client/*.js'], // Actual pattern(s) to match.
+					dest: '<%= options.dest %>',
+					filter: 'isFile'
+			 }]
 			}
 		}
 	});
@@ -38,9 +69,11 @@ module.exports = function(grunt) {
 	// Load the plugins
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-less');
+	grunt.loadNpmTasks('grunt-contrib-copy');
+	grunt.loadNpmTasks('grunt-newer');
 	//load all tasks in folder grunt-tasks
 	grunt.loadTasks('grunt-tasks');
 	// Default task(s).
-	grunt.registerTask('default', ['jshint', "less","dustc"]);// 
+	grunt.registerTask('default', ['jshint', "less","dustc", "newer:copy"]);// 
 
 };
