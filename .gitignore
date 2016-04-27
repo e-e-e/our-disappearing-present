@@ -9,7 +9,7 @@ config.json
 **/08415ce2-8df9-4972-b70c-8b8c7720b4e8.svg
 
 # Destination directories
-html/dest
+html/dist
 
 # Logs
 logs
