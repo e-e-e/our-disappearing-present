@@ -5,7 +5,11 @@
   "manifest_version": 2,
   "permissions": ["<all_urls>"],
   "content_scripts": [{
-    "matches": ["http://*.nextwave.org.au/*", "https://*.nextwave.org.au/*"],
+    "matches": [
+      "*://*.nextwave.org.au/*", 
+      "*://*.shipsinthenight.info/*",
+      "*://*.separatinghydrogenfromair.com/*"
+    ],
     "js": ["odp-ext.js"],
     "run_at": "document_end"
   }]
