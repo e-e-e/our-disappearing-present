@@ -1,46 +1,33 @@
 
+// grunt overrides @theme for each theme to make custom css code
+@theme: "default";
+
 @import "imports/mixin";
+//import default theme
+@import (once) "imports/default/theme";
+//then override defaults with theme specific variables
+@import (optional, once) "imports/@{theme}/theme";
 
-// variables
+// basic variables
 @index: 999999999;
-
 // sizing
 @odp-width: 600px;
+@odp-mobile-break-width: 754px;
 @odp-height: 90%;
+// media queries 
+@smartphones: ~"only screen and (max-width : @{odp-mobile-break-width})";
+//@tablets: ~"only screen and (min-width: 768px) and (max-width: 959px)";
 
-// colours
-@primary-tone: #000;
-@primary-transparent: rgba(0,0,0,0);
-@secondary-tone: #555;
-@tertiary-tone: #EEE;
-@base-tone: #FFF;
-
-// fonts
-@font-sans-regular: 'TheSans Mono Regular', sans-serif;
-
-.default-font(@size:1em) {
-	font-family: "OfficinaSansITCStd-Book", sans-serif;
-	font-weight: normal;
-	font-style: normal;
-	font-size: @size;
-}
-
-.mono-regular-font(@size:0.675rem) {
-	font-family: 'TheSans Mono Regular', sans-serif;
-	font-weight: normal;
-	font-style: normal;
-	font-size: @size;
-}
-
-.mono-bold-font(@size:0.875rem) {
-	font-family: 'TheSans Mono Bold', sans-serif;
-	font-weight: normal;
-	font-style: normal;
-	font-size: @size;
+.odp-set-width {
+	width: 100%;
+	max-width: @odp-width;
+	@media @smartphones {
+		width: 100% !important;
+		max-width: @odp-mobile-break-width !important;
+	}
 }
 
 // mixins specifically for odp
-
 .radial-gradient-with-image (@img, @color-from, @color-to, @edge) {
 	background: #FFF; /* Old Browsers */
 	background-image: @img, -moz-radial-gradient(center, ellipse cover, @color-from 0%, @color-to @edge); /* FF3.6+ */
@@ -52,9 +39,8 @@
 	background-color: transparent;
 	background-repeat: no-repeat;
 	background-position: center;
-	.background-size(2rem, 3rem 3rem);
+	.background-size(2em, 3em 3em);
 }
-
 
 /*button displays*/
 
@@ -76,19 +62,22 @@ div#our-disappearing-present.active {
 	color: @base-tone;
 
 	&.round {
+		font-size: 1em;
+		&.small { font-size: 0.5em };
+		&.large { font-size: 2em };
 		position: fixed;
 		z-index: @index - 1;
-		width: 4rem;
-		height: 4rem;
+		width: 4em;
+		height: 4em;
 		padding: 0;
 		margin: 0;
 		border: none;
 		.transition(background-size 0.5s);
 		.radial-gradient-with-image(url("/images/logo/logo.svg"),@primary-tone,@primary-transparent,70%);
-		
+
 		&:hover {
 			background-color: transparent;
-			background-size: 2rem, 4rem 4rem;
+			.background-size(2em, 4em 4em);
 		}
 	}
 	
@@ -114,8 +103,7 @@ div#odp-popup {
 	top:1rem;
 	bottom:1rem;
 	z-index: @index;
-	width: 100%;
-	max-width: @odp-width;
+	.odp-set-width;
 	height: @odp-height;
 	margin: 0;
 	padding: 0;
@@ -123,14 +111,22 @@ div#odp-popup {
 	background: @base-tone;
 	border: 1px solid @primary-tone;
 
+	@media @smartphones {
+		height:100%;
+		top:0px !important;
+		left: 0px !important;
+		border-left-width: 0px;
+		border-right-width: 0px;
+		background-image: #f0f;
+	}
+
 	a, p, span {
 		padding: 0;
 		margin: 0;
 		line-height: 1rem;
 	}
 	& > div {
-		width: 100%;
-		max-width: @odp-width;
+		.odp-set-width;
 	}
 
 	a {
@@ -166,6 +162,9 @@ div#odp-head {
 	background-color: @primary-tone;
 	color: @base-tone;
 	cursor: move;
+	@media @smartphones {
+		cursor: pointer;
+	}
 	
 	span.odp-title {
 		float: left;
@@ -186,19 +185,19 @@ div#odp-head {
 		background-color: transparent;
 		background-repeat: no-repeat;
 		background-position: center;
-		.background-size(0.9rem);
+		.background-size(0.7rem);
 	}
 
-	& > button {
+	& > div.odp-close {
 		position: absolute;
 		padding: 0 !important;
 		margin: 0 !important;
 		border: none !important;
 		background-color: transparent !important;
-		right: 1.5rem !important;
-		top: 1rem !important;
-		width: 0.5rem !important;
-		height: 0.5rem !important;
+		right: 0.5rem !important;
+		top: 0rem !important;
+		width: 2.5rem !important;
+		height: 2.5rem !important;
 		outline: none !important;
 		overflow: visible;
 		cursor: pointer;
@@ -352,10 +351,11 @@ ul#odp-msgs {
 			margin: 0.5rem 0.5rem;
 		}
 	}
-	&:hover .odp-msg-options {
+	&.active .odp-msg-options {
 		display: block;
 		float: right;
 		position: relative;
+		z-index: @index;
 		right: 0px;
 		top:1rem;
 		width: 7rem;
@@ -363,10 +363,10 @@ ul#odp-msgs {
 	}
 }
 
-.odp-msg-extra:hover {
+.odp-msg-extra.active {
 	background-color: @tertiary-tone;
 }
-.odp-odd .odp-msg-extra:hover {
+.odp-odd .odp-msg-extra.active {
 	background-color: @base-tone;
 }
 
@@ -388,7 +388,7 @@ div#odp-foot {
 }
 
 div#odp-focus {
-	width: 600px;
+	.odp-set-width;
 	font-size: 1em;
 	min-height: 1rem;
 	padding: 0.5rem 0;
@@ -439,6 +439,7 @@ form#odp-form {
 textarea#odp-m, input#odp-n {
 	.default-font;
 	outline: none;
+	max-width: initial;
 	.appearance;
 }
 
@@ -446,9 +447,9 @@ textarea#odp-m {
 	display: block;
 	width: 100%;
 	margin: 0;
-	padding: 0.5rem;
+	padding: 0.5rem !important;
 	box-sizing: border-box;
-	border: 1px solid @primary-tone;
+	border: 1px solid @primary-tone !important;
 	overflow: auto;
 	resize: none;
 }

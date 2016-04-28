@@ -1,5 +1,5 @@
 
-#ignore configuration file
+# Ignore configuration file which includes sensitive varables.
 config.json
 
 # Fonts
@@ -7,6 +7,9 @@ config.json
 **/*.ttf
 **/*.eot
 **/08415ce2-8df9-4972-b70c-8b8c7720b4e8.svg
+
+# Utilities folder which includes stress test and chrome extension
+utilities/
 
 # Destination directories
 html/dist

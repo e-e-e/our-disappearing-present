@@ -4,7 +4,7 @@
 	var io_options = {transports: ['websocket']};
 	var host = "<%= options.config.server %>";
 	var iohost = host;
-
+	var $;
 	// ----- simple query variables -----
 
 	var queries = (function(a) {
@@ -90,8 +90,7 @@
 
 	// ----- BEGIN -----
 
-	var to_load = [ '/client/libs/jquery-1.11.3.js',
-									'/socket.io/socket.io.js',
+	var to_load = [ '/socket.io/socket.io.js',
 									'/client/libs/dust-core.min.js' ];
 	
 	(function preload(to_load) {
@@ -102,8 +101,15 @@
 			load_script(host+to_load[i], loaded);
 		}
 
-		function loaded() { 
+		function loaded() {
+			console.log(jQuery);
 			if(--counter === 0){
+				if(!$ && jQuery !== undefined) {
+					$ = jQuery;
+				} else {
+					console.log('Our disappearing present requires jQuery.');
+					console.log("Add <script src='"+host+"/client/libs/jquery-1.11.3.js'></script> before the link to Our disappearing present... ");
+				}
 				//if all other scripts are loaded then load views and init program
 				load_script(host+'/client/views/views.js', function(){
 					$(document).ready(init); 
@@ -261,13 +267,16 @@
 		// submit form
 		el.find('form').submit(this._submit.bind(this));
 		// close window
-		el.find('.odp-close').click(this.close.bind(this));
+		if($(window).width()<754)
+			el.find(this.ids.head).click(this.close.bind(this));
+		else 
+			el.find('.odp-close').click(this.close.bind(this));
 		// listen for tab changes
 		el.find(this.ids.tabs).click(this.change_tab.bind(this));
 		// set user handle from cookie - updated cookie when user changes
 		el.find(this.ids.name).on('change',function(){
 			Cookies.create('odp-handle',$(this).val());
-		}).val(Cookies.read('odp-handle') || 'anonymous');
+		}).val(Cookies.read('odp-handle') || random_name());
 		// attach handler for dragging
 		el.find(this.ids.head).on('mousedown',function(e){
 			e.preventDefault();
@@ -296,7 +305,7 @@
 	};
 
 	ODPWindow.prototype.close = function() {
-		$(this.ids.window).hide();
+		$(this.ids.window).slideUp();
 		$(this.ids.content).show();
 		$(this.ids.info).hide();
 		
@@ -358,7 +367,10 @@
 		this._loaded();
 		$(this.ids.listening_to).text('listening to ' + (this.focus.listening_to || 'everything'));
 		$(this.ids.talking_to).text('talking to ' + (this.focus.talking_to || 'everything'));
-		this.add(words);
+		if(words)	this.add(words);
+		else {
+			//show message that there are currently no messages. Be the first to leave a message.
+		}
 	};
 
 	ODPWindow.prototype._keypress = function (e){
@@ -378,6 +390,7 @@
 		if( !this.loading && words.words ) {
 			this.socket.emit('words', words);
 			$(this.ids.input).val('');
+			this._scroll_to_bottom();
 		}	else {
 			//need to alert that they need to write something to comment
 			//or if not loaded wait until loaded.
@@ -387,9 +400,8 @@
 	};
 
 	ODPWindow.prototype.add = function (w) {
-
 		//check if at bottom 
-		var body = $("#odp-body");
+		var body = $(this.ids.body);
 		var bottom = (body.scrollTop() + body.innerHeight() >= body[0].scrollHeight - 20);
 
 		if(w instanceof Array) {
@@ -399,11 +411,16 @@
 			this._append_message(w);
 		}
 		
-		if(bottom)
-			$(this.ids.content).parent().animate({ scrollTop: $(this.ids.content).height() }, "fast");
+		if(bottom) this._scroll_to_bottom();
 		else {
+			//show alert.
 			console.log('NEW MESSAGE');
 		}
+	};
+
+	ODPWindow.prototype._scroll_to_bottom = function () {
+		var contents = $(this.ids.content);
+		contents.parent().animate({ scrollTop: contents.height() }, "fast");
 	};
 
 	ODPWindow.prototype._append_message = function (w) {
@@ -426,6 +443,20 @@
 			this.even_odd=!this.even_odd;
 			//add event handler to clicking on link
 			message.find('.odp-msg-title a').on('click', follow_link_with_handle );
+			//add event handler for handling options menu
+			message.find('div.odp-msg-extra').on('click', function(el){
+				var extra = el.target;
+				if(!$(extra).hasClass('active')) {
+					$(extra).addClass("active");
+					$("body").on('click',null, {target:extra}, deselect_element);
+				}
+			});
+			function deselect_element(e){
+				if (e.target !== e.data.target && !$(e.target).parents('div.odp-msg-extra').length) { 
+					$(e.data.target).removeClass("active");
+					$("body").off('click',deselect_element);
+				}
+			}
 			//add expiration data used to fade out post
 			message = message.find('.odp-expires')
 							.data('expires',new Date(w.expiresAt));
@@ -445,7 +476,6 @@
 
 	function follow_link_with_handle (e) {
 		var href = e.target.href; 
-		//console.log('?odp=' + $('#odp-n').val());
 		window.location = href + '?odp=' +encodeURIComponent($('#odp-n').val());
 		return false;
 	}
@@ -453,12 +483,22 @@
 	function sanitise_relation (rel) {
 		if(!rel) 
 			return rel;
-		var uri_parser = /^(([^:\/?#]+):)?(\/\/([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?/;
-		var v = rel.match(uri_parser);
-		if(v && v.length > 6) {
-			return v[5];
+		try {
+			var uri_parser = /^(([^:\/?#]+):)?(\/\/([^\/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?/;
+			var v = rel.match(uri_parser);
+			if(v && v.length > 6) {
+				return v[5];
+			}
+		} catch (err) {
+			console.log('Error passing relation.');
 		}
 		return undefined;
+	}
+
+	// function for generating random user names
+	function random_name() {
+		var names = ["Song","Ami","Georgiana","Major","Junko","Willian","Robby","Ricki","Scottie","Deneen","Micaela","Kaycee","Faviola","Hang","Nelda","Hyun","Chelsie","Yasuko","Tatum","Meryl","Louvenia","Rachele","Carmel","Emeline","Harris","Dorsey","Venita","Gus","Colby","Indira","Phylicia","Keenan","Brigida","Augustina","Maira","Twyla","Lauren","Boris","Qiana","Yu","Adrian","Adella","Robt","Lia","Mignon","Mari","Thanh","Romona","Renna","Frida","Adele","Marlin","Del","Retta","Treva","Larae","Whitley","Katelynn","Verena","Reatha","Markus","Pandora","Maryln","Makeda","Marry","Cher","Mitch","Donita","Charise","Dalton","Tressa","Patricia","Philomena","Gerri","Fredricka","Kathe","Charles","Leonila","Alisia","Juliana","Creola","Candi","Phoebe","Kelsie","Ellyn","Anastasia","Carolynn","Sharron","Kai","Dennise","Deloise","Dudley","Jessia","Clair","Luann","Jessika","Enriqueta","Charlesetta","Thao","Inga"];
+		return names[Math.floor(Math.random()*names.length)];
 	}
 
 })();

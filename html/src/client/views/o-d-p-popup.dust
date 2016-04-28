@@ -1,9 +1,9 @@
 <div id="odp-popup">
 	<div id="odp-head">
 		<span class="odp-title">Our disappearing present...</span>
-		<button class="odp-close" title="Close" role="button">
+		<div class="odp-close" title="Close" role="button">
 			<span class="odp-icon-close"></span>
-		</button>
+		</div>
 	</div>
 	<div>
 		<div id="odp-tabs">
