@@ -1,10 +1,32 @@
 (function() {
 //	"use strict";
 	// CONFIG
-	var io_options = {transports: ['websocket']};
-	var host = "<%= options.config.server %>";
-	var iohost = host;
+	var theme;
+	try {
+		theme = odp_theme || '';
+	} catch(e) {}
+
+	var config = {
+		host: "<%= options.config.server %>",
+		io_host:"<%= options.config.server %>",
+		io_options: {
+			transports: ['websocket']
+		},
+		auto_load: {
+			js:[//loaded in any order 
+				'/socket.io/socket.io.js',
+				'/client/libs/dust-core.min.js' 
+			],
+			last_js:'/client/views/views.js',
+			css:[
+				'/fonts/font.css',
+				'/client/css/odp'+((theme)?'.'+theme:'')+'.css'
+			]
+		},
+
+	};
 	var $;
+
 	// ----- simple query variables -----
 
 	var queries = (function(a) {
@@ -89,40 +111,43 @@
 	}
 
 	// ----- BEGIN -----
-
-	var to_load = [ '/socket.io/socket.io.js',
-									'/client/libs/dust-core.min.js' ];
 	
-	(function preload(to_load) {
-		
-		var counter = to_load.length;
-		load_css(host+'/client/css/odp.css');
-		for(var i=0; i<to_load.length; i++) {
-			load_script(host+to_load[i], loaded);
+	(function preload(host,js_to_load,css_to_load,js_last) {
+		var i =0;
+		var counter = js_to_load.length;
+
+		for (i = 0; i < css_to_load.length; i++) {
+			load_css(host+css_to_load[i], 'odp-css'+((i>0)?i:''));
+		}
+		for(i = 0; i < js_to_load.length; i++) {
+			load_script(host+js_to_load[i], loaded);
 		}
 
 		function loaded() {
-			console.log(jQuery);
 			if(--counter === 0){
-				if(!$ && jQuery !== undefined) {
+				//check if there is jquery
+				if(!$ && jQuery) {
 					$ = jQuery;
 				} else {
 					console.log('Our disappearing present requires jQuery.');
 					console.log("Add <script src='"+host+"/client/libs/jquery-1.11.3.js'></script> before the link to Our disappearing present... ");
 				}
 				//if all other scripts are loaded then load views and init program
-				load_script(host+'/client/views/views.js', function(){
-					$(document).ready(init); 
-				});
+				if(js_last) load_script(host+js_last, function(){
+						$(document).ready(init); 
+					});
+				else $(document).ready(init); 
 			}
 		}
-	})(to_load);
+	})(config.host,
+		 config.auto_load.js,
+		 config.auto_load.css,
+		 config.auto_load.last_js);
 
 	// ----- MAIN -----
 
 	function init() {
-
-		var socket = io.connect(iohost, io_options);
+		var socket = io.connect(config.io_host, config.io_options);
 		var odp = new ODPWindow(socket);
 
 		// erasure.
@@ -130,6 +155,10 @@
 
 		socket.on('connected', function() {
 			//if connected make new window.
+			if($('div#our-disappearing-present').length === 0) {
+				$('<div id="our-disappearing-present" class="round top right"></div>')
+					.appendTo('body');
+			}
 			reveal_odp();
 			//check if query has odp name
 			//if so open window and set to relative
@@ -156,7 +185,7 @@
 						if(button.data('odp-rel')) {
 							button.text('comment');
 						} else {
-							button.text('our disappearing present...');
+							button.text('Our disappearing present...');
 						}
 					}
 				}).click(function() {

@@ -27,8 +27,7 @@ class Disappearing {
 	_update_count() {
 		//need to make it so that this is a running average
 		//less susceptable to fluctuation
-		//console.log(this.count);
-		console.log(this.count, this.pressure);
+		//console.log(this.count, this.pressure);
 		return this.db.collection('words').count()
 				.then(c => { 
 					var N = 100;

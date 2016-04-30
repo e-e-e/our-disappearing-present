@@ -1,6 +1,17 @@
 // colours
-@primary-tone: #000;
-@primary-transparent: rgba(0,0,0,0);
-@secondary-tone: #555;
-@tertiary-tone: #EEE;
+
+// ...for general elements
 @base-tone: #FFF;
+@primary-tone: #000;
+@secondary-tone: mix(@base-tone,@primary-tone,31.25%);//#555
+@tertiary-tone: mix(@base-tone,@primary-tone,93.75%); //#EEE;
+
+// ... for typography
+@primary-font-colour: #000;
+@secondary-font-colour: mix(@base-tone,@primary-font-colour,31.25%);
+@border-color: @primary-font-colour; 
+
+// ... for ODP button
+@button-gradient: #000;
+@button-gradient-edge: fade(@button-gradient,0);
+

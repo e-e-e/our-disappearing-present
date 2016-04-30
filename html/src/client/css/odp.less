@@ -60,7 +60,7 @@ div#our-disappearing-present.active {
 	border: solid thin @primary-tone;
 	background-color: @primary-tone;
 	color: @base-tone;
-
+	.transition(~"background-size 0.5s,background-color 0.5s");
 	&.round {
 		font-size: 1em;
 		&.small { font-size: 0.5em };
@@ -72,8 +72,8 @@ div#our-disappearing-present.active {
 		padding: 0;
 		margin: 0;
 		border: none;
-		.transition(background-size 0.5s);
-		.radial-gradient-with-image(url("/images/logo/logo.svg"),@primary-tone,@primary-transparent,70%);
+		
+		.radial-gradient-with-image(url("/images/logo/logo.svg"),@button-gradient,@button-gradient-edge,70%);
 
 		&:hover {
 			background-color: transparent;
@@ -109,7 +109,7 @@ div#odp-popup {
 	padding: 0;
 	overflow: hidden;
 	background: @base-tone;
-	border: 1px solid @primary-tone;
+	border: 1px solid @border-color;
 
 	@media @smartphones {
 		height:100%;
@@ -130,27 +130,30 @@ div#odp-popup {
 	}
 
 	a {
-		.mono-regular-font(1em);
-		color:@secondary-tone;
-		&:active, &:visited { color:@secondary-tone;} 
-		&:hover { color: @primary-tone;}
+		.mono-regular-font(0.75rem);
+		color:@secondary-font-colour;
+		&:active, &:visited { color:@secondary-font-colour;} 
+		&:hover { color: @primary-font-colour; background-color: inherit;}
 	}
 
 	p {
 		.default-font;
+		color:@primary-font-colour;
 		margin: 0.5rem 1rem ;
 		line-height: 1.2rem ;
 	}
 
 	h1 {
-		.mono-bold-font(1em);
-		line-height: 1.2rem;
+		.mono-bold-font(1rem);
+		color:@primary-font-colour;
+		line-height: 2rem;
 		padding: 0;
 	}
 
 	h2, h3, h4, h5 {
 		.mono-bold-font;
-		line-height: 1.2rem;
+		color:@secondary-font-colour;
+		line-height: 1.5rem;
 		padding: 0;
 	}
 
@@ -270,7 +273,7 @@ ul#odp-msgs {
 	margin: 0;
 	padding: 0;
 	background: @base-tone;
-	color: @primary-tone;
+	color: @primary-font-colour;
 	li {
 		padding: 1rem 1rem;
 		&.odp-odd { background: @tertiary-tone; }
@@ -281,8 +284,8 @@ ul#odp-msgs {
 
 .odp-msg {
 	.odp-msg-date, .odp-msg-host {
-		.mono-regular-font;
-		color:@secondary-tone;
+		.mono-regular-font !important;
+		color:@secondary-font-colour;
 	}
 }
 
@@ -290,7 +293,7 @@ ul#odp-msgs {
 	display: block;
 	padding: 0.5rem 0;
 	clear: both;
-	p {
+	p:first-child, p:last-child {
 		margin: 0rem 1rem !important;
 	}
 }
@@ -310,6 +313,11 @@ ul#odp-msgs {
 	display: block;
 	float: left;
 	max-width: 90%;
+	
+	a {
+		.mono-regular-font(1em) !important;
+	}
+
 	& > div {
 		overflow: hidden;
 		word-wrap: break-word;
@@ -374,7 +382,6 @@ ul#odp-msgs {
 
 #odp-info {
 	padding: 1em 1em;
-
 	p {
 		margin: 0;
 	}
@@ -441,6 +448,7 @@ textarea#odp-m, input#odp-n {
 	outline: none;
 	max-width: initial;
 	.appearance;
+	border-radius: 0;
 }
 
 textarea#odp-m { 
@@ -457,8 +465,9 @@ textarea#odp-m {
 input#odp-n {
 	display: inline;
 	.mono-bold-font;
+	color: @primary-font-colour;
 	border: none;
-	border-bottom: 1px @primary-tone solid;
+	border-bottom: 1px @secondary-font-colour solid;
 	padding-left: 1rem;
 	background: none;
 	overflow: visible;

@@ -43,6 +43,8 @@ module.exports = function(grunt) {
 	grunt.config("less",{
 		default: less_theme,
 		hydrogen: less_theme,
+		ships: less_theme,
+		brainlina: less_theme,
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-copy');

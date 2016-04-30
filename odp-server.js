@@ -29,9 +29,14 @@ function setup(odp,io) {
 		var talking_to = [];
 		var origin = socket.request.headers.origin;
 		var ip = socket.handshake.headers['x-forwarded-for'] || socket.request.connection.remoteAddress;
+		console.log("connecting ",socket.handshake.headers['x-forwarded-for'],"or", socket.request.connection.remoteAddress);
+
+		// need to check if origin is within whitelist and ip not within blocked list.
 
 		//notify client of connection accepted
 		//should send info to construct neccessary 
+		// need to send info on latest posts on the system - how many in the day
+		// - most happening at - last post here was ... - how long ago. Latest post was ...
 		socket.emit('connected', { stats:'ok'} );
 
 		socket.on('focus',focus => {
@@ -57,7 +62,6 @@ function setup(odp,io) {
 					}, '');
 				talking_to.reverse();
 			}
-
 			// get and return words with relation
 			odp.get_words(listening)
 				.then(words => socket.emit('focused', words))
@@ -82,7 +86,7 @@ function setup(odp,io) {
 				//console.log("emited to:", r);
 				socket.broadcast.to(r).emit('words',words);
 			});
-			//send back to itself the words it jsut added.
+			//send back to itself the words it just added.
 			socket.emit('words',words);
 		});
 

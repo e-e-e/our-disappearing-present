@@ -24,6 +24,14 @@ app.use(helmet.noCache());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(errorHandler());
+
+//middle ware to handle cors locally.
+app.use((req, res, next)=>{
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	next();
+});
+
 app.use('/', express.static('./html/dist/'));
 app.use('/', (req,res)=> res.sendFile(__dirname + '/html/dist/basic.html'));
 app.use('/:room', (req,res)=> res.sendFile(__dirname + '/html/dist/basic.html'));
