@@ -4,40 +4,73 @@
 'use strict';
 
 var Disappearing = require('./model.js').Disappearing;
-var MongoClient = require('mongodb').MongoClient;
 
 /*global exports:true*/
-exports = module.exports = function (io, mongo_url, mongo_options) {
-	return MongoClient.connect(mongo_url,mongo_options)
-				.then(db => {
-					var odp = new Disappearing(db);
-					return odp.init();
-				})
-				.then(db => setup(db,io));
+exports = module.exports = function (io, db, block) {
+	var odp = new Disappearing(db);
+	return odp.init()
+						.then(db => setup(db,io,block));
 };
 
-function setup(odp,io) {
-	// force websockets for server efficiency
+function setup(odp,io, block) {
+	// force websockets for server efficiency no polling
 	io.set('transports', ['websocket']);
 	//private global variables
 	//do we need to keep count of those connected
+	io.on('connection', init_connection );
 
-	io.on('connection', function (socket) {
-		//var ref = socket.request.headers.referer;
+	function init_connection(socket) {		
+		var origin = socket.request.headers.origin;
+		var ip = socket.handshake.headers['x-forwarded-for'] || socket.request.connection.remoteAddress;
+		// console.log("connecting ",socket.handshake.headers['x-forwarded-for'],"or", socket.request.connection.remoteAddress);
+		// need to check if origin is within whitelist and ip not within blocked list.
+		if(block) {
+			odp.is_whitelisted(origin).then( result => {
+				console.log('is '+origin+' whitelisted?');
+				if(result !== null) { // host on whitelist but is ip ok?
+					return odp.is_blocked(ip);
+				} else throw new Error('Not on whitelist');
+			}).then( result => {
+				console.log('is '+ ip + ' blocked?');
+				if(result === null) {
+					//else continue processing
+					manage_connection(socket,origin,ip);
+				} else throw new Error('IP is blocked.');
+			}).catch( err => {
+				console.log(err);
+				// should let client know reason that they are disconnect. 
+				socket.emit('kicked',{err:err});
+				socket.disconnect();
+			});
+		} else {
+			console.log('non-blocking connection to:', ip);
+			manage_connection(socket,origin,ip);
+		}
+	}
+
+	function manage_connection(socket, origin, ip) {
+		var last_words = null;
+		var last_messaged = Date.now();
+		var kill_count = 0;
 		var listening = '/';
 		var talking;
 		var talking_to = [];
-		var origin = socket.request.headers.origin;
-		var ip = socket.handshake.headers['x-forwarded-for'] || socket.request.connection.remoteAddress;
-		console.log("connecting ",socket.handshake.headers['x-forwarded-for'],"or", socket.request.connection.remoteAddress);
+		var last_id;
 
-		// need to check if origin is within whitelist and ip not within blocked list.
-
-		//notify client of connection accepted
-		//should send info to construct neccessary 
-		// need to send info on latest posts on the system - how many in the day
-		// - most happening at - last post here was ... - how long ago. Latest post was ...
+		// notify client of connection accepted
 		socket.emit('connected', { stats:'ok'} );
+
+		// should send info to construct neccessary 
+		// need to send info on latest posts on the system - how many in the day
+		// - most happening at - last post here was ... - how long ago. 
+		// – Latest post was ...
+		// this can be achieved by client peeking at the odp db
+
+		socket.on('peek', (url,number) => {
+			odp.get_words(url,number||1)
+				.then(words => socket.emit('latest', { url:url, words:words}))
+				.catch(err => socket.emit('err', err));
+		});
 
 		socket.on('focus',focus => {
 			//set relation that client listens to
@@ -64,34 +97,73 @@ function setup(odp,io) {
 			}
 			// get and return words with relation
 			odp.get_words(listening)
-				.then(words => socket.emit('focused', words))
+				.then(words => {
+					socket.emit('focused', words);
+					last_id = (words.length>0)? words[words.length-1]._id : undefined;
+				})
 				.catch(err => socket.emit('err', err));
+		});
+
+		socket.on('more', () => {
+			if(last_id) {
+				odp.get_words(listening,10,last_id)
+					.then(words => {
+						console.log("more of "+last_id);
+						socket.emit('update',words, last_id);
+						last_id = (words.length>0)? words[words.length-1]._id : undefined;
+					}).catch(err => socket.emit('err', err));
+			}
+			else socket.emit('update',[]);
 		});
 
 		socket.on('words', data => {
 			// check posts per minute?
-			// validate data
-			// calculate time to live
-			var words = odp.filter(data,ip,origin);
-			// add to db
-			odp.add_words(words)
-				//.then(r => console.log(r) )
-				.catch(e => console.log(e,e.stack));
-			
-			words.ip = '';
+			var now = Date.now();
+			var elapsed = now - last_messaged;
+			last_messaged = now;
+			var violations = 0;
 
-			// broadcast to all listening
-			// eg /, /this, /this/and_this/
-			talking_to.forEach( r => {
-				//console.log("emited to:", r);
-				socket.broadcast.to(r).emit('words',words);
-			});
+			if(block){
+				// violation if repeating and/or typing too quick 
+				if (elapsed < 500) 
+					violations++;
+				if( last_words!==null && last_words.name === data.name && 
+						last_words.words===data.words)
+					violations++;
+			}
+			// validate data
+			var words = odp.filter(data,ip,origin);
+
+			if(block && violations) { // if > 0 
+				// does not send to database if violated
+				kill_count+= violations;
+				if(kill_count>5) { // kills connection if repeated violoations 
+					odp.block(ip);
+					socket.emit('blocked',"Your IP has been blocked.");
+					socket.disconnect();
+				}
+			} else {
+				last_words = data;
+				if( kill_count>0 ) kill_count--;
+				// add to db
+				odp.add_words(words)
+					//.then(r => console.log(r) )
+					.catch(e => console.log(e,e.stack));
+				words.ip = '';
+
+				// broadcast to all listening
+				// eg /, /this, /this/and_this/
+				talking_to.forEach( r => {
+					//console.log("emited to:", r);
+					socket.broadcast.to(r).emit('words',words);
+				});
+			}
 			//send back to itself the words it just added.
 			socket.emit('words',words);
 		});
 
-		socket.on('disconnect', () => console.log('disconnected'));
+		// nothing to happen on disconnect so don't worry
+		// socket.on('disconnect', () => console.log('disconnected'));
 
-	});
-
+	}
 }

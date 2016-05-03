@@ -12,9 +12,9 @@
 		<span class="information" data-odp-tab='information'>i</span>
 		</div>
 	</div>
+		<div id="notify-top"></div>
 		<div id="odp-body">
-			<ul id="odp-msgs">
-			</ul>
+			<ul id="odp-msgs"></ul>
 			<div id="odp-info" style="display: none;">
 				<h1>About Our disappearing present...</h1>
 				<h2>In few words:</h2>
@@ -30,6 +30,7 @@
 				<p><a href="https://github.com/e-e-e/our-disappearing-present" target="_blank">Fork it on Github</a>.</p>
 			</div>
 		</div>
+		<div id="notify-bottom"></div>
 		<div id="odp-foot">
 			<div id='odp-focus'><div id='odp-listening-to'></div><div id='odp-talking-to'></div></div>
 			<form id='odp-form'>

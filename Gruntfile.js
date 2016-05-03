@@ -15,6 +15,7 @@ module.exports = function(grunt) {
 		files: ['*.js',
 						'./**/*.js',
 						'!./node_modules/**/*.js',
+						'!./utilities/**/*.js',
 						'!<%= options.dest %>/**/*',
 						'!<%= options.src %>/client/views/**/*.js',
 						'!<%= options.src %>/client/libs/*.js'

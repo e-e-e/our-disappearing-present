@@ -151,21 +151,30 @@
 		var odp = new ODPWindow(socket);
 
 		// erasure.
-		setInterval(erasure,100);
-
 		socket.on('connected', function() {
-			//if connected make new window.
+			//if no puttons add a round one to the top right hand corner
 			if($('div#our-disappearing-present').length === 0) {
 				$('<div id="our-disappearing-present" class="round top right"></div>')
 					.appendTo('body');
 			}
+			// start erasure of odp posts
+			setInterval(erasure,100);
+			// show odp buttons
 			reveal_odp();
 			//check if query has odp name
-			//if so open window and set to relative
+			//if so automatically open window and set to relative
 			if(queries.odp) {
 				Cookies.create('odp-handle',decodeURI(queries.odp));
 				odp.open();
+			} else {
+				//peek and notify
+
 			}
+		});
+
+		socket.on('blocked', function(words) {
+			console.log(words,"BLOCKED");
+			// notify user...
 		});
 
 		socket.on('focused', function(words) {
@@ -176,6 +185,12 @@
 			if(odp) odp.add(words);
 		});
 
+		socket.on('update', function(words) {
+			console.log('updated');
+			console.log(words);
+			if(odp) odp.update(words);
+		});
+
 		function reveal_odp () {
 			$('div#our-disappearing-present').not('.active').css({
 					display:"inherit"
@@ -183,7 +198,7 @@
 					var button = $(this);
 					if(!button.hasClass('round')){
 						if(button.data('odp-rel')) {
-							button.text('comment');
+							button.text('Join the discussion...');
 						} else {
 							button.text('Our disappearing present...');
 						}
@@ -249,6 +264,7 @@
 		this.opened = false;
 		this.loading = false;
 		this.even_odd = false;
+		this.is_more = false;
 	}
 
 	ODPWindow.prototype.open = function open(rel) {
@@ -290,12 +306,15 @@
 		//make popup and attach to body
 		var el = $(output);
 		el.hide().appendTo('body');
+		
 		// attach event handers
+		
+		//el.find('#notify-bottom').click(this.)
 		// submit on keypress within textarea input
 		el.find(this.ids.input).on('keypress', this._keypress.bind(this));
 		// submit form
 		el.find('form').submit(this._submit.bind(this));
-		// close window
+		// close window event
 		if($(window).width()<754)
 			el.find(this.ids.head).click(this.close.bind(this));
 		else 
@@ -306,6 +325,8 @@
 		el.find(this.ids.name).on('change',function(){
 			Cookies.create('odp-handle',$(this).val());
 		}).val(Cookies.read('odp-handle') || random_name());
+		// scrolling event
+		el.find(this.ids.body).on('scroll',this._on_scroll.bind(this));
 		// attach handler for dragging
 		el.find(this.ids.head).on('mousedown',function(e){
 			e.preventDefault();
@@ -331,6 +352,18 @@
 
 	ODPWindow.prototype._get_pathname = function () {
 		return window.location.pathname;
+	};
+
+	ODPWindow.prototype._on_scroll =function(e) {
+		if(this.is_more) {
+			var scrollTop = $(e.target).scrollTop();
+			if(scrollTop<0) {
+				//get more
+				this.socket.emit('more');
+				this.is_more = false;
+				//add temporary loader
+			}
+		}
 	};
 
 	ODPWindow.prototype.close = function() {
@@ -396,8 +429,11 @@
 		this._loaded();
 		$(this.ids.listening_to).text('listening to ' + (this.focus.listening_to || 'everything'));
 		$(this.ids.talking_to).text('talking to ' + (this.focus.talking_to || 'everything'));
-		if(words)	this.add(words);
-		else {
+		if(words)	{
+			this.add(words);
+			this.is_more = true;
+		} else {
+			this.is_more = false;
 			//show message that there are currently no messages. Be the first to leave a message.
 		}
 	};
@@ -418,13 +454,16 @@
 		//broadcast message
 		if( !this.loading && words.words ) {
 			this.socket.emit('words', words);
+			// clear input
 			$(this.ids.input).val('');
 			this._scroll_to_bottom();
 		}	else {
 			//need to alert that they need to write something to comment
 			//or if not loaded wait until loaded.
+
 		}
-		// clear input
+		//unfocus - hide keyboard.
+		$(this.ids.input+', '+this.ids.name).blur();
 		return false;
 	};
 
@@ -435,15 +474,29 @@
 
 		if(w instanceof Array) {
 			for (var i= w.length-1; i>=0; i--) 
-				this._append_message(w[i]);
+				this._render(w[i], true);
 		} else { 
-			this._append_message(w);
+			this._render(w, true);
 		}
 		
 		if(bottom) this._scroll_to_bottom();
 		else {
 			//show alert.
 			console.log('NEW MESSAGE');
+			$('#notify-bottom').text("OK").css({background:"red",color:"white"});
+		}
+	};
+
+	ODPWindow.prototype.update = function(w) {
+		if(!w || w.length===0) {
+			//no_more to load
+			console.log('NO MORE');
+		} else {
+			console.log('ADDING ', w.length);
+			for (var i= 0; i<w.length; i++) {
+				this._render(w[i], false);
+			}
+			this.is_more = true;
 		}
 	};
 
@@ -452,7 +505,7 @@
 		contents.parent().animate({ scrollTop: contents.height() }, "fast");
 	};
 
-	ODPWindow.prototype._append_message = function (w) {
+	ODPWindow.prototype._render = function(w, append) {
 		var countdown = new Date(w.expiresAt).getTime() - Date.now();
 		if(countdown>200) {
 			dust.render('message',{
@@ -463,34 +516,49 @@
 				origin: w.origin,
 				date: this._pretty_date( w.createdAt),
 				expires: countdown
-			}, cb.bind(this) );
+			}, this._post_render.bind(this, append, w.expiresAt) );
 		}
-		function cb(err, output) {
-			var message = $(output).appendTo(this.ids.content);
-			//alternate colour of posts
-			if(!this.even_odd) message.addClass('odp-odd');
-			this.even_odd=!this.even_odd;
-			//add event handler to clicking on link
-			message.find('.odp-msg-title a').on('click', follow_link_with_handle );
-			//add event handler for handling options menu
-			message.find('div.odp-msg-extra').on('click', function(el){
-				var extra = el.target;
-				if(!$(extra).hasClass('active')) {
-					$(extra).addClass("active");
-					$("body").on('click',null, {target:extra}, deselect_element);
-				}
-			});
-			function deselect_element(e){
-				if (e.target !== e.data.target && !$(e.target).parents('div.odp-msg-extra').length) { 
-					$(e.data.target).removeClass("active");
-					$("body").off('click',deselect_element);
-				}
+	};
+
+	ODPWindow.prototype._post_render = function(append,expires,err,output) {
+		var message = $(output);
+		if(append) message.appendTo(this.ids.content);
+		else {
+			message.prependTo(this.ids.content);
+		}
+		// alternate colour of posts
+		if(!this.even_odd) message.addClass('odp-odd');
+		this.even_odd=!this.even_odd;
+		// attach event handlers
+		this._attach_msg_events(message);
+		// add expiration data used to fade out post
+		message = message.find('.odp-expires')
+						.data('expires',new Date(expires));
+		//set intitial fade to avoid jerky begining
+		//this is global and probably not good practice
+		fade_message(message,new Date(expires).getTime()-Date.now());
+		if(!append) {
+			var body = $(this.ids.body);
+			body.scrollTop(body.scrollTop()+message.outerHeight(true));
+		}
+	};
+
+	ODPWindow.prototype._attach_msg_events = function (msg) {
+		//add event handler to clicking on link
+		msg.find('.odp-msg-title a').on('click', follow_link_with_handle );
+		//add event handler for handling options menu
+		msg.find('div.odp-msg-extra').on('click', function(el) {
+			var extra = el.target;
+			if(!$(extra).hasClass('active')) {
+				$(extra).addClass("active");
+				$("body").on('click',null, {target:extra}, deselect_element);
 			}
-			//add expiration data used to fade out post
-			message = message.find('.odp-expires')
-							.data('expires',new Date(w.expiresAt));
-			//set intitial fade to avoid jerky begining
-			fade_message(message,new Date(w.expiresAt).getTime()-Date.now());
+		});
+		function deselect_element(e){
+			if (e.target !== e.data.target && !$(e.target).parents('div.odp-msg-extra').length) { 
+				$(e.data.target).removeClass("active");
+				$("body").off('click',deselect_element);
+			}
 		}
 	};
 
@@ -502,6 +570,8 @@
 					 ('0' + (date.getMonth()+1)).slice(-2) + '/' + 
 					 date.getFullYear();
 	};
+
+	// HELPER FUNCTIONS 
 
 	function follow_link_with_handle (e) {
 		var href = e.target.href; 
@@ -525,6 +595,7 @@
 	}
 
 	// function for generating random user names
+
 	function random_name() {
 		var names = ["Song","Ami","Georgiana","Major","Junko","Willian","Robby","Ricki","Scottie","Deneen","Micaela","Kaycee","Faviola","Hang","Nelda","Hyun","Chelsie","Yasuko","Tatum","Meryl","Louvenia","Rachele","Carmel","Emeline","Harris","Dorsey","Venita","Gus","Colby","Indira","Phylicia","Keenan","Brigida","Augustina","Maira","Twyla","Lauren","Boris","Qiana","Yu","Adrian","Adella","Robt","Lia","Mignon","Mari","Thanh","Romona","Renna","Frida","Adele","Marlin","Del","Retta","Treva","Larae","Whitley","Katelynn","Verena","Reatha","Markus","Pandora","Maryln","Makeda","Marry","Cher","Mitch","Donita","Charise","Dalton","Tressa","Patricia","Philomena","Gerri","Fredricka","Kathe","Charles","Leonila","Alisia","Juliana","Creola","Candi","Phoebe","Kelsie","Ellyn","Anastasia","Carolynn","Sharron","Kai","Dennise","Deloise","Dudley","Jessia","Clair","Luann","Jessika","Enriqueta","Charlesetta","Thao","Inga"];
 		return names[Math.floor(Math.random()*names.length)];

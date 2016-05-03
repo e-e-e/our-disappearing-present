@@ -1,6 +1,8 @@
 
-# Ignore configuration file which includes sensitive varables.
+# Ignore configuration file
 config.json
+# Admin server for moderation
+admin.js
 
 # Fonts
 **/*.woff

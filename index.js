@@ -6,6 +6,7 @@
 // libraries need for serving content
 var fs = require('fs');
 var express	= require('express');
+var MongoClient = require('mongodb').MongoClient;
 
 var config = require('./config.json');
 
@@ -36,10 +37,13 @@ app.use('/', express.static('./html/dist/'));
 app.use('/', (req,res)=> res.sendFile(__dirname + '/html/dist/basic.html'));
 app.use('/:room', (req,res)=> res.sendFile(__dirname + '/html/dist/basic.html'));
 
-odp_server(io, config.mongodb.url,config.mongodb.options).then( ()=> {
-	server.listen(port, () => {
-	  console.log('Express server listening on port ' + port);
+MongoClient.connect(config.mongodb.url,config.mongodb.options)
+	.then( db => odp_server(io, db, config.block) )
+	.then(() => {
+		server.listen(port, () => {
+			console.log('Express server listening on port ' + port);
+		});
+	}).catch(err => {
+		console.log('FAILED TO LOAD OUR DISAPPEARING PRESENT', err, err.stack);
 	});
-}).catch(err => {
-	console.log('FAILED TO LOAD OUR DISAPPEARING PRESENT', err, err.stack);
-});
+	
