@@ -315,7 +315,7 @@
 		// submit form
 		el.find('form').submit(this._submit.bind(this));
 		// close window event
-		if($(window).width()<754)
+		if(is_mobile())
 			el.find(this.ids.head).click(this.close.bind(this));
 		else 
 			el.find('.odp-close').click(this.close.bind(this));
@@ -460,10 +460,10 @@
 		}	else {
 			//need to alert that they need to write something to comment
 			//or if not loaded wait until loaded.
-
 		}
 		//unfocus - hide keyboard.
-		$(this.ids.input+', '+this.ids.name).blur();
+		if(is_mobile()) 
+			$(this.ids.input+', '+this.ids.name).blur();
 		return false;
 	};
 
@@ -483,7 +483,7 @@
 		else {
 			//show alert.
 			console.log('NEW MESSAGE');
-			$('#notify-bottom').text("OK").css({background:"red",color:"white"});
+			//$('#notify-bottom').text("OK").css({background:"red",color:"white"});
 		}
 	};
 
@@ -594,6 +594,9 @@
 		return undefined;
 	}
 
+	function is_mobile() {
+		return ($(window).width()<754);
+	}
 	// function for generating random user names
 
 	function random_name() {
