@@ -15,6 +15,6 @@
 		<div class="odp-msg-content">
 			{#words}<p>{.}</p>{/words}
 		</div>
-		<div class="odp-msg-date">posted at {date} <div class='odp-expires'>{expires}</div></div>
+		<div class="odp-msg-date">posted <span class="odp-posted">{date}</span> <div class='odp-expires'>{expires}</div></div>
 	</div>
 </li>

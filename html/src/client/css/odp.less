@@ -71,8 +71,6 @@ div#our-disappearing-present.active {
 	.transition(~"background-size 0.5s,background-color 0.5s");
 	&.round {
 		font-size: 1em;
-		&.small { font-size: 0.5em };
-		&.large { font-size: 2em };
 		position: fixed;
 		z-index: @index - 1;
 		width: 4em;
@@ -88,7 +86,9 @@ div#our-disappearing-present.active {
 			.background-size(2em, 4em 4em);
 		}
 	}
-	
+	&.small { font-size: 0.5em };
+	&.normal { font-size: 1em };
+	&.large { font-size: 2em };
 	&.top { top:2rem;}
 	&.bottom { bottom:2rem;}
 	&.right { right:2rem; }
@@ -132,6 +132,7 @@ div#odp-popup {
 		padding: 0;
 		margin: 0;
 		line-height: 1rem;
+
 	}
 	& > div {
 		.odp-set-width;
@@ -140,6 +141,7 @@ div#odp-popup {
 	a {
 		.mono-regular-font(0.75rem);
 		color:@secondary-font-colour;
+		background-color: inherit;
 		&:active, &:visited { color:@secondary-font-colour;} 
 		&:hover { color: @primary-font-colour; background-color: inherit;}
 	}
