@@ -1,6 +1,4 @@
 (function() {
-//	"use strict";
-	console.log( window.location.pathname);
 	// CONFIG
 	var theme;
 	try {
@@ -145,6 +143,10 @@
 		 config.auto_load.css,
 		 config.auto_load.last_js);
 
+	// STUPID HACK FOR NEXTWAVE URLS
+
+	var nextwave_urls = {"#event=141":"/events/panel-can-ecosex-save-earth/","#event=155":"/events/a97/","#event=159":"/events/admission-into-the-everyday-sublime/","#event=211":"/events/camel/","#event=212":"/events/mummy-dearest/","#event=213":"/events/sedihsunno/","#event=214":"/events/under-my-skin/","#event=270":"/events/algorthmic-misfits/","#event=271":"/events/angkot-alien/","#event=273":"/events/ua-numi-le-fau/","#event=274":"/events/blaaq-catt/","#event=275":"/events/love-five-feminist-perspectives/","#event=276":"/events/desert-body-creep/","#event=277":"/events/telltale/","#event=278":"/events/still-i-rise/","#event=279":"/events/something-less/","#event=280":"/events/fempress/","#event=281":"/events/sisters-akousmatica/","#event=282":"/events/ground-control/","#event=283":"/events/ships-in-the-night/","#event=284":"/events/the-horse/","#event=285":"/events/shadow-sites/","#event=287":"/events/shadows-on-the-hill/","#event=288":"/events/microlandscapes/","#event=289":"/events/separating-hydrogen-air-primer/","#event=290":"/events/misconceive/","#event=295":"/events/the-second-woman/","#event=296":"/events/one-million-views/","#event=297":"/events/relating-immediate-surroundings-something-im-talking/","#event=298":"/events/passing/","#event=300":"/events/our-disappearing-present/","#event=301":"/events/the-fraud-complex/","#event=302":"/events/voices-joan-arc/","#event=303":"/events/far-from-here/","#event=305":"/events/decolonist/","#event=304":"/events/blaksland-and-lawless/","#event=306":"/events/arrival-of-the-rajah/","#event=453":"/events/truth-symposium-internet-privacy/","#event=563":"/events/shadow-sites-artist-talk-and-walking-tour/","#event=594":"/events/one-million-views-walking-tour/","#event=596":"/events/one-million-views-workshop/","#event=624":"/events/decolonist-artist-talk-meditation-and-workshop/","#event=700":"/events/indigenous-language-workshops/","#event=701":"/events/festival-club/"};
+
 	// ----- MAIN -----
 
 	function init() {
@@ -166,13 +168,9 @@
 			//if so automatically open window and set to relative
 			if(queries.odp) {
 				var rel;
-				// var hash = window.location.hash;
-				// if(window.location.hash.match(/#event=\d+/)) {
-				// 	console.log('ok');
-				// 	console.log($('div#our-disappearing-present[data-odp-rel]').length);
-				// 	rel = $('div#our-disappearing-present[data-odp-rel]').last().data('odp-rel');
-				// 	console.log(rel);
-				// }
+				if(window.location.hash) {
+					rel = nextwave_urls[window.location.hash];
+				}
 				Cookies.create('odp-handle',decodeURI(queries.odp));
 				odp.open(rel);
 			} else {
