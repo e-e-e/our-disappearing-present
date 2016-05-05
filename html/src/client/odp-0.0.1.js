@@ -1,5 +1,6 @@
 (function() {
 //	"use strict";
+	console.log( window.location.pathname);
 	// CONFIG
 	var theme;
 	try {
@@ -164,11 +165,18 @@
 			//check if query has odp name
 			//if so automatically open window and set to relative
 			if(queries.odp) {
+				var rel;
+				// var hash = window.location.hash;
+				// if(window.location.hash.match(/#event=\d+/)) {
+				// 	console.log('ok');
+				// 	console.log($('div#our-disappearing-present[data-odp-rel]').length);
+				// 	rel = $('div#our-disappearing-present[data-odp-rel]').last().data('odp-rel');
+				// 	console.log(rel);
+				// }
 				Cookies.create('odp-handle',decodeURI(queries.odp));
-				odp.open();
+				odp.open(rel);
 			} else {
 				//peek and notify
-
 			}
 		});
 
@@ -192,6 +200,7 @@
 		});
 
 		function reveal_odp () {
+
 			$('div#our-disappearing-present').not('.active').css({
 					display:"inherit"
 				}).addClass('active').each(function(){
@@ -279,6 +288,7 @@
 			//make popup first;
 			dust.render('o-d-p-popup',{}, this._after_open.bind(this));
 		}
+
 		// set active tab.
 		$('div#odp-tabs > span').removeClass('active');
 		// use tmp_rel if we want that everything is chosen when odp button
