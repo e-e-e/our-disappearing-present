@@ -334,7 +334,9 @@
 		if(!name) {
 			name = random_name();
 			Cookies.create('odp-handle', name);
-		} 
+		}
+		el.find(this.ids.name).val(name);
+		
 		el.find(this.ids.name).on('change',function(){
 			Cookies.create('odp-handle',$(this).val());
 		}).val();
