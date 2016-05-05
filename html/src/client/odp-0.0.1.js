@@ -330,9 +330,14 @@
 		// listen for tab changes
 		el.find(this.ids.tabs).click(this.change_tab.bind(this));
 		// set user handle from cookie - updated cookie when user changes
+		var name = Cookies.read('odp-handle');
+		if(!name) {
+			name = random_name();
+			Cookies.create('odp-handle', name);
+		} 
 		el.find(this.ids.name).on('change',function(){
 			Cookies.create('odp-handle',$(this).val());
-		}).val(Cookies.read('odp-handle') || random_name());
+		}).val();
 		// scrolling event
 		el.find(this.ids.body).on('scroll',this._on_scroll.bind(this));
 		// attach handler for dragging

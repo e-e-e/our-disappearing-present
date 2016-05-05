@@ -46,8 +46,8 @@ div#content {
 	height: 100%;
 	display: table;
 	margin: 0 auto;
-	padding-top: 2em;
-	padding-bottom: 5em;
+	padding-top: 2rem;
+	padding-bottom: 5rem;
 }
 
 div#content > div {
@@ -63,19 +63,19 @@ div#content > div > div {
 
 div#buttons {
 	display: block;
-	padding: 1em 2em;
+	padding: 1rem 2rem;
 }
 
 div#logos {
 	text-align: center;
-	padding: 0 2em;
+	padding: 0 2rem;
 	overflow: hidden;
 }
 
 div#logos img {
 	display: inline;
-	margin: 1em 0.5em;
-	height: 2.5em;
+	margin: 1rem 0.5rem;
+	height: 2.5rem;
 	width: auto;
 }
 
@@ -84,7 +84,7 @@ h1, h2, h3, h4, h5, p, a {
 }
 
 h1, h2, h3, h4, h5, p {
-	padding: 0 2em;
+	padding: 0 2rem;
 }
 
 p, a {
@@ -100,6 +100,10 @@ p {
 	text-align: left;
 }
 
+p.note {
+	font-size: 0.75rem;
+}
+
 a {
 	color:#000;
 	background-color: rgb(255, 255, 100);
@@ -109,14 +113,14 @@ a:hover, a:focus: a:active { color: #000; }
 a:hover { background-color: rgb(200, 200, 200) }
 
 img.logo {
-	width: 3em;
+	width: 3rem;
 	height: auto;
-	margin: 5em;
-	padding-top: 6em;
+	margin: 5rem;
+	padding-top: 6rem;
 }
 
 hr {
 	border:none;
-	border-top: 0.5em solid black;
-	margin: 2em 2em;
+	border-top: 0.5rem solid black;
+	margin: 2rem 2rem;
 }
