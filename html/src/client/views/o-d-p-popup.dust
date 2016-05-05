@@ -14,6 +14,7 @@
 	</div>
 		<div id="notify-top"></div>
 		<div id="odp-body">
+			<div id="odp-getting-more"></div>
 			<ul id="odp-msgs"></ul>
 			<div id="odp-info" style="display: none;">
 				<h1>About Our disappearing present...</h1>

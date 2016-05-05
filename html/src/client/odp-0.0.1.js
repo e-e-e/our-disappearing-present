@@ -370,10 +370,12 @@
 	ODPWindow.prototype._on_scroll =function(e) {
 		if(this.is_more) {
 			var scrollTop = $(e.target).scrollTop();
-			if(scrollTop<0) {
+			if(scrollTop<=0) {
 				//get more
-				this.socket.emit('more');
 				this.is_more = false;
+				$('#odp-getting-more').addClass('active');
+				this.socket.emit('more');
+				
 				//add temporary loader
 			}
 		}
@@ -501,9 +503,11 @@
 	};
 
 	ODPWindow.prototype.update = function(w) {
+		$('#odp-getting-more').removeClass('active');
 		if(!w || w.length===0) {
 			//no_more to load
 			console.log('NO MORE');
+			this.is_more = false;
 		} else {
 			console.log('ADDING ', w.length);
 			for (var i= 0; i<w.length; i++) {

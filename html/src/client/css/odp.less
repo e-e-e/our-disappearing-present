@@ -278,6 +278,18 @@ div#odp-body {
 	}
 }
 
+div#odp-getting-more {
+	display: block;
+	background-image: url(/images/loading.gif);
+	background-repeat: no-repeat;
+	background-position: center;
+	.background-size(contain);
+	.transition(hieght 0.5s);
+	&.active {
+		height: 6em;
+	}
+}
+
 ul#odp-msgs {
 	list-style-type: none;
 	margin: 0;
