@@ -250,7 +250,7 @@
 
 				notify.fadeIn(1000);
 
-				//timeout = setTimeout(function() {fade(notify);}, 5000);
+				timeout = setTimeout(function() {fade(notify);}, 5000);
 
 				notify.click(function(){
 					clearTimeout(timeout);
