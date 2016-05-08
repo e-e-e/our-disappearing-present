@@ -164,7 +164,7 @@ class Disappearing {
 }
 
 function escapeRegExp(str) {
-	return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+	return (str) ? str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"):'';
 }
 
 /*global exports:true*/

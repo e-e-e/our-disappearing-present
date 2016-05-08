@@ -495,3 +495,49 @@ input#odp-n {
 	overflow: visible;
 }
 
+// Notifications
+
+#odp-notifications {
+	display: inline-block;
+	position: fixed;
+	z-index: @index - 1;
+	background: transparent;
+	top:0;
+	right:0;
+	width: auto;
+	height: auto;
+	overflow: visible;
+}
+
+.odp-notify {
+	.mono-regular-font(0.675rem);
+	display: block;
+	background-color: @base-tone;
+	opacity: 0.5;
+	color: @primary-tone;
+	border: solid 1px @border-color;
+	border-radius: 0px;
+	.transition(opacity 0.5s);
+	max-width:20rem;
+	padding: 0.5rem;
+	margin:0.5rem;
+	cursor: pointer;
+	@media @smartphones {
+		max-width: 100%;
+		margin: 0;
+		opacity: 0.9;
+	}
+	.odp-name {
+		.mono-bold-font(0.675rem);
+	}
+	p, span {
+		.mono-regular-font(0.675rem);
+		line-height: 1rem;
+		margin: 0;
+		padding: 0;
+	}
+}
+
+.odp-notify:hover {
+	opacity: 1.0;
+}

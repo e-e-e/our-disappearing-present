@@ -175,6 +175,12 @@
 				odp.open(rel);
 			} else {
 				//peek and notify
+				socket.emit('peek');
+				console.log(window.location.pathname);
+				if(window.location.pathname!=='/') {
+					console.log('sent');
+					socket.emit('peek',window.location.pathname);
+				}
 			}
 		});
 
@@ -192,10 +198,83 @@
 		});
 
 		socket.on('update', function(words) {
-			console.log('updated');
-			console.log(words);
 			if(odp) odp.update(words);
 		});
+
+		socket.on('latest', notify );
+
+			// FUNCTION FOR SIMPLE NOTIFICATION OF LATEST MESSAGES
+
+		function notify (data) {
+			console.log(data);
+			if(data.words.length>0) {
+				var words = data.words[0]; 
+				var timeout = null;
+				var notifications = $('div#odp-notifications');
+				if(notifications.length===0) {
+					notifications = $('<div id="odp-notifications"></div>').appendTo('body');
+				}
+
+				var notify = $('<div class="odp-notify"></div>')
+										.appendTo('div#odp-notifications');
+				// x left message on y, z minutes ago.
+				// on odp - click to open.
+				var created = Date.now() - new Date(words.createdAt).getTime();
+				var s = Math.floor(created / 1000); //seconds
+				var m = Math.floor(s/60);
+				var h = Math.floor(m/60);
+				var d = Math.floor(h/24);
+				var ago = (d)? d + (' day'+((d>1)?'s':'')) :
+									(h)? h + (' hour'+((h>1)?'s':'')) :
+									(m)? m + (' minute'+((m>1)?'s':'')) :
+									(s)? s + (' second'+ ((s>1)?'s':'')) : '';
+				ago += ' ago. (click to visit)';
+				notify.hide();
+
+				$('<span class="odp-name"></span>').text(words.name).appendTo(notify);
+				
+				var relation = '';
+
+				if(words.origin !== window.location.host) {
+					if(words.rel === window.location.pathname) {
+						relation = 'this at '+words.origin;
+					} else {
+						relation = words.rel +' at '+ words.origin;
+					}
+				} else if (words.rel === window.location.pathname) {
+					relation = 'this page.';
+				} else {
+					relation = words.rel;
+				}
+
+				$('<span><span>').text(' wrote in relation to '+relation).appendTo(notify);
+				$('<p></p>').text(ago).appendTo(notify);
+
+				notify.fadeIn(1000);
+
+				timeout = setTimeout(function() {fade(notify);}, 5000);
+
+				notify.click(function(){
+					clearTimeout(timeout);
+					fade(notify);
+					//open new odp window
+					if(words.rel!=='/' || words.rel !== window.location.pathname ) {
+						// go to location 
+						var name = Cookies.read('odp-handle');
+						if(!name) 
+							name = random_name();
+						window.location = words.origin+words.rel+'?odp='+name;
+					} else {
+						odp.open(words.rel || '/');
+					}
+				});
+			}
+			function fade(el) {
+				el.fadeOut('slow',function() {
+					$(this).remove();
+				});
+			}
+		} 
 
 		function reveal_odp () {
 
@@ -228,6 +307,8 @@
 			});
 		}
 	}
+
+	// fading messages
 
 	function fade_message(msg,expires) {
 
@@ -317,7 +398,7 @@
 		
 		// attach event handers
 		
-		//el.find('#notify-bottom').click(this.)
+		el.find('#notify-bottom').click(this._scroll_to_bottom.bind(this));
 		// submit on keypress within textarea input
 		el.find(this.ids.input).on('keypress', this._keypress.bind(this));
 		// submit form
@@ -336,7 +417,7 @@
 			Cookies.create('odp-handle', name);
 		}
 		el.find(this.ids.name).val(name);
-		
+
 		el.find(this.ids.name).on('change',function(){
 			Cookies.create('odp-handle',$(this).val());
 		}).val();
@@ -589,6 +670,8 @@
 					 ('0' + (date.getMonth()+1)).slice(-2) + '/' + 
 					 date.getFullYear();
 	};
+
+
 
 	// HELPER FUNCTIONS 
 

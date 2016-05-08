@@ -25,12 +25,15 @@ function setup(odp,io, block) {
 		// console.log("connecting ",socket.handshake.headers['x-forwarded-for'],"or", socket.request.connection.remoteAddress);
 		// need to check if origin is within whitelist and ip not within blocked list.
 		if(block) {
-			odp.is_whitelisted(origin).then( result => {
-				console.log('is '+origin+' whitelisted?');
-				if(result !== null) { // host on whitelist but is ip ok?
-					return odp.is_blocked(ip);
-				} else throw new Error('Not on whitelist');
-			}).then( result => {
+
+			// removing whitelist
+			// odp.is_whitelisted(origin).then( result => {
+			// 	console.log('is '+origin+' whitelisted?');
+			// 	if(result !== null) { // host on whitelist but is ip ok?
+			// 		return odp.is_blocked(ip);
+			// 	} else throw new Error('Not on whitelist');
+			// })
+			odp.is_blocked(ip).then( result => {
 				console.log('is '+ ip + ' blocked?');
 				if(result === null) {
 					//else continue processing
