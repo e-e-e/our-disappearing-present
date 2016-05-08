@@ -512,12 +512,11 @@ input#odp-n {
 .odp-notify {
 	.mono-regular-font(0.675rem);
 	display: block;
-	background-color: @base-tone;
-	opacity: 0.5;
-	color: @primary-tone;
+	background-color: fade(@base-tone,50%);
+	color: fade(@primary-tone,50%);
 	border: solid 1px @border-color;
 	border-radius: 0px;
-	.transition(opacity 0.5s);
+	.transition(~"background-color 0.5s, color 0.5s");
 	max-width:20rem;
 	padding: 0.5rem;
 	margin:0.5rem;
@@ -525,7 +524,7 @@ input#odp-n {
 	@media @smartphones {
 		max-width: 100%;
 		margin: 0;
-		opacity: 0.9;
+		background-color: fade(@base-tone,90%);
 	}
 	.odp-name {
 		.mono-bold-font(0.675rem);
@@ -539,5 +538,6 @@ input#odp-n {
 }
 
 .odp-notify:hover {
-	opacity: 1.0;
+	background-color: @base-tone;
+	color: @primary-tone;
 }

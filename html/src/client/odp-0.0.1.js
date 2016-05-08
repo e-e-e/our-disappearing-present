@@ -176,7 +176,6 @@
 			} else {
 				//peek and notify
 				socket.emit('peek');
-				console.log(window.location.pathname);
 				if(window.location.pathname!=='/') {
 					console.log('sent');
 					socket.emit('peek',window.location.pathname);
@@ -214,7 +213,6 @@
 				if(notifications.length===0) {
 					notifications = $('<div id="odp-notifications"></div>').appendTo('body');
 				}
-
 				var notify = $('<div class="odp-notify"></div>')
 										.appendTo('div#odp-notifications');
 				// x left message on y, z minutes ago.
@@ -252,7 +250,7 @@
 
 				notify.fadeIn(1000);
 
-				timeout = setTimeout(function() {fade(notify);}, 5000);
+				//timeout = setTimeout(function() {fade(notify);}, 5000);
 
 				notify.click(function(){
 					clearTimeout(timeout);
