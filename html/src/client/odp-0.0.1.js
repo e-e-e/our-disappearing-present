@@ -590,7 +590,7 @@
 		if(!c) c = 0;
 		c++;
 		notify.data('count',c);
-		notify.text( c + 'new message '+ ((c)?'s':'') + ' available');
+		notify.text( c + ' new message '+ ((c)?'s':'') + ' available');
 		notify.fadeIn(500);
 
 	};
