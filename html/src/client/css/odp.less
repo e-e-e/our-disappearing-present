@@ -42,6 +42,14 @@
 	.background-size(2em, 3em 3em);
 }
 
+// font 
+
+.odp-mono {
+	.mono-regular-font;
+}
+
+
+
 /*button displays*/
 
 div#our-disappearing-present {
@@ -398,6 +406,22 @@ ul#odp-msgs {
 }
 .odp-odd .odp-msg-extra.active {
 	background-color: @base-tone;
+}
+
+/* NEW MSG section */
+
+#odp-notify-bottom {
+	position: absolute;
+	.mono-bold-font;
+	text-align: center;
+	.transform(~"translateY(-100%)");
+	padding: 1em 1em;
+	background: fade(@base-tone,50%);
+	cursor: pointer;
+	.transition(background-color 0.5s);
+	&:hover {
+		background: @base-tone;
+	}
 }
 
 /* Info section */

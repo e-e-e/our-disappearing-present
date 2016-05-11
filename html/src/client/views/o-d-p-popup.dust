@@ -12,7 +12,7 @@
 		<span class="information" data-odp-tab='information'>i</span>
 		</div>
 	</div>
-		<div id="notify-top"></div>
+		<div id="odp-notify-top"></div>
 		<div id="odp-body">
 			<div id="odp-getting-more"></div>
 			<ul id="odp-msgs"></ul>
@@ -28,10 +28,16 @@
 				<p>This is a kind of thought experiment, an attempt at constructing an alternative and independent “social media”. This is not a facebook-killer or any kind of replacement for mass corporate-controlled social media. It is rather a humble attempt to fashion infrastructure which enables a different sort of sociality on the the Internet. Our disappearing present… exists parasitically across multiple websites, and as such facilitates conversation and movement across its hosts. There is no surveillance, no logging, no advertisement, and your engagement is not monetised. Content only last a period of time before disappearing forever. </p>
 				<p>As a prototype and a provisional statement on what social media could be like if it was underpinned by a different kind of politic, Our disappearing present… is intended as a reminder of our own agency. We can build our own communities and our own worlds.</p>
 				<p>Our disappearing present… is open source.</p>
-				<p><a href="https://github.com/e-e-e/our-disappearing-present" target="_blank">Fork it on Github</a>. <a href="http://2016.nextwave.org.au/terms-of-use-odp/" target="_blank">Read Next Wave’s Terms of Use</a>.</p>
+				<p><a href="https://github.com/e-e-e/our-disappearing-present" target="_blank">Fork it on Github</a>.</p>
+				<p><a href="http://2016.nextwave.org.au/terms-of-use-odp/" target="_blank">Read Next Wave’s Terms of Use</a>.</p>
+				<h2>Install ODP on your own website/s:</h2>
+				<p>Our disappearing present... is a means of connecting disperate websites through conversation. It resists the centralising tendency of contemporary aggregation websites, which seek to capture and hold your attention, to track and monetise your movements. </p>
+				<p>If you manage a website and would like to join the network of ODP hosts simply add the following script tag to the header of your website. </p>
+				<p class="opd-mono">&lt;script src="http:disappearing.us/client/odp-0.0.1.js"&gt;&lt;/script&gt;</p>
+				<p>NOTE: ODP requires jQuery to run, so must appear after a jQuery script tag in the header of your website.</p>
 			</div>
 		</div>
-		<div id="notify-bottom"></div>
+		<div id="odp-notify-bottom"></div>
 		<div id="odp-foot">
 			<div id='odp-focus'><div id='odp-listening-to'></div><div id='odp-talking-to'></div></div>
 			<form id='odp-form'>

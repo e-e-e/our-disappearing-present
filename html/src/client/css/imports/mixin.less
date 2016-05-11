@@ -37,7 +37,13 @@
 	-o-transition: 			@transition;
 	transition: 				@transition;
 }
-
+.transform (@value) {
+	-webkit-transform: @value;
+	-moz-transform: 	 @value;
+	-ms-transform: 		 @value;
+	-o-transform: 		 @value;
+	transform: 				 @value;
+}
 .background-size (@size) {
 	-webkit-background-size: 	@size;
 	-moz-background-size: 		@size;
