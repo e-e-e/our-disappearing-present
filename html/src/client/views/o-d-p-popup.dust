@@ -33,7 +33,7 @@
 				<h2>Install ODP on your own website/s:</h2>
 				<p>Our disappearing present... is a means of connecting disperate websites through conversation. It resists the centralising tendency of contemporary aggregation websites, which seek to capture and hold your attention, to track and monetise your movements. </p>
 				<p>If you manage a website and would like to join the network of ODP hosts simply add the following script tag to the header of your website. </p>
-				<p class="opd-mono">&lt;script src="http:disappearing.us/client/odp-0.0.1.js"&gt;&lt;/script&gt;</p>
+				<p class="odp-mono">&lt;script src="http:disappearing.us/client/odp-0.0.1.js"&gt;&lt;/script&gt;</p>
 				<p>NOTE: ODP requires jQuery to run, so must appear after a jQuery script tag in the header of your website.</p>
 			</div>
 		</div>
