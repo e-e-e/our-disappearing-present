@@ -57,22 +57,22 @@ div#our-disappearing-present {
 	display: none;
 	overflow: hidden;
 	cursor: pointer !important;
-} 
+}
 
 div#our-disappearing-present.active {
 	display: block;
-	@media only screen and (max-width: 47.125rem) {
-		height:2.5rem;
-		line-height: 2.5rem;
-		padding-left: 1.5rem;
+	@media only screen and (max-width: 47.125em) {
+		height:2.5em;
+		line-height: 2.5em;
+		padding-left: 1.5em;
 		margin-bottom: 0;
 		border:none;
 		border-bottom: solid thin @primary-tone;
 	}
-	height:2rem;
-	line-height: 2rem;
-	padding-left: 0.875rem;
-	margin-bottom: 0.9375rem;
+	height:2em;
+	line-height: 2em;
+	padding-left: 0.875em;
+	margin-bottom: 0.9375em;
 	border: solid thin @primary-tone;
 	background-color: @primary-tone;
 	color: @base-tone;
@@ -97,10 +97,10 @@ div#our-disappearing-present.active {
 	&.small { font-size: 0.5em };
 	&.normal { font-size: 1em };
 	&.large { font-size: 2em };
-	&.top { top:2rem;}
-	&.bottom { bottom:2rem;}
-	&.right { right:2rem; }
-	&.left { left:2rem;}
+	&.top { top:2em;}
+	&.bottom { bottom:2em;}
+	&.right { right:2em; }
+	&.left { left:2em;}
 
 	&:hover {
 		background-color: @base-tone;
@@ -120,8 +120,8 @@ div#odp-popup {
 	.display-flex;
 	.flex-direction(column);
 	position: fixed;
-	top:1rem;
-	bottom:1rem;
+	top:1em;
+	bottom:1em;
 	z-index: @index;
 	.odp-set-width;
 	height: @odp-height;
@@ -143,7 +143,7 @@ div#odp-popup {
 	a, p, span {
 		padding: 0;
 		margin: 0;
-		line-height: 1rem;
+		line-height: 1em;
 
 	}
 	& > div {
@@ -151,38 +151,38 @@ div#odp-popup {
 	}
 
 	a {
-		.mono-regular-font(0.75rem);
+		.mono-regular-font(1em);
 		color:@secondary-font-colour;
 		background-color: inherit;
-		&:active, &:visited { color:@secondary-font-colour;} 
+		&:active, &:visited { color:@secondary-font-colour;}
 		&:hover { color: @primary-font-colour; background-color: inherit;}
 	}
 
 	p {
-		.default-font;
+		.default-font(1em);
 		color:@primary-font-colour;
-		margin: 0.5rem 1rem ;
-		line-height: 1.2rem ;
+		margin: 0.5em 1em ;
+		line-height: 1.2em ;
 	}
 
 	h1 {
-		.mono-bold-font(1rem);
+		.mono-bold-font(1em);
 		color:@primary-font-colour;
-		line-height: 2rem;
+		line-height: 2em;
 		padding: 0;
 	}
 
 	h2, h3, h4, h5 {
 		.mono-bold-font;
 		color:@secondary-font-colour;
-		line-height: 1.5rem;
+		line-height: 1.5em;
 		padding: 0;
 	}
 
 }
 
 div#odp-head {
-	height: 2.5rem;
+	height: 2.5em;
 	overflow: hidden;
 	background-color: @primary-tone;
 	color: @base-tone;
@@ -190,16 +190,16 @@ div#odp-head {
 	@media @smartphones {
 		cursor: pointer;
 	}
-	
+
 	span.odp-title {
 		float: left;
 		width: 90%;
-		padding: 0 1rem;
+		padding: 0 1em;
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
-		line-height: 2.5rem;
-		.default-font(1.125rem);
+		line-height: 2.5em;
+		.default-font(1.125em);
 	}
 
 	span.odp-icon-close {
@@ -210,7 +210,7 @@ div#odp-head {
 		background-color: transparent;
 		background-repeat: no-repeat;
 		background-position: center;
-		.background-size(0.7rem);
+		.background-size(0.7em);
 	}
 
 	& > div.odp-close {
@@ -219,10 +219,10 @@ div#odp-head {
 		margin: 0 !important;
 		border: none !important;
 		background-color: transparent !important;
-		right: 0.5rem !important;
-		top: 0rem !important;
-		width: 2.5rem !important;
-		height: 2.5rem !important;
+		right: 0.5em !important;
+		top: 0em !important;
+		width: 2.5em !important;
+		height: 2.5em !important;
 		outline: none !important;
 		overflow: visible;
 		cursor: pointer;
@@ -245,12 +245,12 @@ div#odp-tabs {
 		.box-sizing();
 		border: 0px;
 		border-bottom: 1px @primary-tone solid;
-		border-top-right-radius: 0.5em; 
-		border-top-left-radius: 0.5em; 
+		border-top-right-radius: 0.5em;
+		border-top-left-radius: 0.5em;
 		background: @primary-tone;
 		color: @base-tone;
-		.default-font(0.7em);
-		line-height: 1.5rem;
+		.default-font(1em);
+		line-height: 1.5em;
 		text-align: center;
 
 		&.active, &.active:hover {
@@ -309,7 +309,7 @@ ul#odp-msgs {
 	background: @base-tone;
 	color: @primary-font-colour;
 	li {
-		padding: 1rem 1rem;
+		padding: 1em 1em;
 		&.odp-odd { background: @tertiary-tone; }
 	}
 }
@@ -325,10 +325,10 @@ ul#odp-msgs {
 
 .odp-msg-content {
 	display: block;
-	padding: 0.5rem 0;
+	padding: 0.5em 0;
 	clear: both;
 	p:first-child, p:last-child {
-		margin: 0rem 1rem !important;
+		margin: 0em 1em !important;
 	}
 }
 
@@ -336,7 +336,7 @@ ul#odp-msgs {
 	.mono-bold-font;
 	white-space: nowrap;
 	word-break: break-all;
-	line-height: 1rem;
+	line-height: 1em;
 	overflow: visible;
 	padding: 0;
 	clear: both;
@@ -347,7 +347,7 @@ ul#odp-msgs {
 	display: block;
 	float: left;
 	max-width: 90%;
-	
+
 	a {
 		.mono-regular-font(1em) !important;
 	}
@@ -363,7 +363,7 @@ ul#odp-msgs {
 }
 
 .odp-msg-host, .odp-msg-date {
-	font-size: 0.675rem;
+	font-size: 0.675em;
 	padding: 0;
 }
 
@@ -371,10 +371,10 @@ ul#odp-msgs {
 
 .odp-msg-extra {
 	float: right;
-	width: 1rem;
-	height: 1rem;
+	width: 1.14em;
+	height: 1.14em;
 	.box-sizing();
-	.background-size (1rem);
+	.background-size (1.14em);
 	background-image: url(/images/down-arrow-black.svg);
 	background-color: transparent;
 	background-repeat: no-repeat;
@@ -382,15 +382,14 @@ ul#odp-msgs {
 	cursor: pointer;
 	overflow: visible;
 
-	.odp-msg-options { 
-		
-		display: none; 
+	.odp-msg-options {
+
+		display: none;
 		background-color: inherit;
 
 		& > div {
-			font-size: 0.675rem;
 			text-align: right;
-			margin: 0.5rem 0.5rem;
+			margin: 0.5em 0.5em;
 		}
 	}
 	&.active .odp-msg-options {
@@ -399,8 +398,8 @@ ul#odp-msgs {
 		position: relative;
 		z-index: @index;
 		right: 0px;
-		top:1rem;
-		width: 7rem;
+		top:1em;
+		width: auto;
 		clear: both;
 	}
 }
@@ -441,46 +440,46 @@ ul#odp-msgs {
 /* Footer */
 
 div#odp-foot {
-	background: @tertiary-tone; 
+	background: @tertiary-tone;
 }
 
 div#odp-focus {
 	.odp-set-width;
 	font-size: 1em;
-	min-height: 1rem;
-	padding: 0.5rem 0;
+	min-height: 1em;
+	padding: 0.5em 0;
 	background: @primary-tone;
 	color:@base-tone;
 }
 
 div#odp-focus > div {
 	.mono-regular-font;
-	padding: 0.1rem 1rem;
+	padding: 0.1em 1em;
 	white-space: nowrap;
 	word-break: break-word;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
 
-form#odp-form { 
-	padding: 0; 
-	margin: 1rem;
+form#odp-form {
+	padding: 0;
+	margin: 1em;
 
 	& > div {
-		margin: 0.5rem 0;
+		margin: 0.5em 0;
 		padding: 0;
 		display: inline-block;
 	}
 
 	button {
 		float: right;
-		.mono-regular-font(1rem);
+		.mono-regular-font(1em);
 		border:1px @primary-tone solid;
 		border-top: none;
 		box-sizing: border-box;
 		background: @primary-tone;
 		color:@base-tone;
-		padding: 0.5rem 1rem; 
+		padding: 0.5em 1em;
 		margin: 0;
 		cursor: pointer;
 		outline: none;
@@ -501,11 +500,11 @@ textarea#odp-m, input#odp-n {
 	border-radius: 0;
 }
 
-textarea#odp-m { 
+textarea#odp-m {
 	display: block;
 	width: 100%;
 	margin: 0;
-	padding: 0.5rem !important;
+	padding: 0.5em !important;
 	box-sizing: border-box;
 	border: 1px solid @primary-tone !important;
 	overflow: auto;
@@ -518,7 +517,7 @@ input#odp-n {
 	color: @primary-font-colour;
 	border: none;
 	border-bottom: 1px @secondary-font-colour solid;
-	padding-left: 1rem;
+	padding-left: 1em;
 	background: none;
 	overflow: visible;
 }
@@ -538,16 +537,16 @@ input#odp-n {
 }
 
 .odp-notify {
-	.mono-regular-font(0.675rem);
+	.mono-regular-font(0.675em);
 	display: block;
 	background-color: fade(@base-tone,50%);
 	color: fade(@primary-tone,50%);
 	border: solid 1px @border-color;
 	border-radius: 0px;
 	.transition(~"background-color 0.5s, color 0.5s");
-	max-width:20rem;
-	padding: 0.5rem;
-	margin:0.5rem;
+	max-width:20em;
+	padding: 0.5em;
+	margin:0.5em;
 	cursor: pointer;
 	@media @smartphones {
 		max-width: 100%;
@@ -555,11 +554,11 @@ input#odp-n {
 		background-color: fade(@base-tone,90%);
 	}
 	.odp-name {
-		.mono-bold-font(0.675rem);
+		.mono-bold-font(0.675em);
 	}
 	p, span {
-		.mono-regular-font(0.675rem);
-		line-height: 1rem;
+		.mono-regular-font(0.675em);
+		line-height: 1em;
 		margin: 0;
 		padding: 0;
 	}
