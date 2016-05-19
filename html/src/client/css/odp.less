@@ -112,7 +112,11 @@ div#our-disappearing-present.active {
 /*popup*/
 
 div#odp-popup {
-	.default-font;
+
+	@media only screen and (min-width: 340px)  { .default-font(13px); }
+	@media only screen and (min-width: 768px)  { .default-font(15px); }
+	@media only screen and (min-width: 1024px) { .default-font(17px); }
+
 	.display-flex;
 	.flex-direction(column);
 	position: fixed;
