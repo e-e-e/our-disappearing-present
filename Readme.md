@@ -1,7 +1,5 @@
 # Our disappearing present... (ODP)
 
-Currently running live at [disappearing.us](http://disappearing.us)
-
 ## About 
 
 ### In few words:
