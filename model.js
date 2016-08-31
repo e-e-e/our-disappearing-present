@@ -51,8 +51,8 @@ class Disappearing {
 		this.pressure = undefined;
 		this.max_msgs = 1000;
 		this.max_msg_length = 2000;
-		this.max_life = 60*24*7; // seven days
-		this.min_life = 1; // one minute
+		this.max_life = 60*24*7*4; // four weeks
+		this.min_life = 60*24; // one day
 		this.lifespan_range = this.max_life - this.min_life;
 	}
 	
