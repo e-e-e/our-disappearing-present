@@ -125,7 +125,7 @@
 		function loaded() {
 			if(--counter === 0){
 				//check if there is jquery
-				if(!$ && jQuery) {
+				if(!$ && typeof jQuery !== "undefined") {
 					$ = jQuery;
 				} else {
 					console.log('Our disappearing present requires jQuery.');
